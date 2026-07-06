@@ -1445,40 +1445,121 @@
  "tileheight":16,
  "tilesets":[
         {
+         "columns":25,
          "firstgid":1,
-         "source":"..\/..\/..\/Downloads\/summer_outdoorsTileSheet2.tsx"
+         "image":"..\/..\/..\/Downloads\/summer_outdoorsTileSheet.png",
+         "imageheight":1264,
+         "imagewidth":400,
+         "margin":0,
+         "name":"summer_outdoorsTileSheet",
+         "spacing":0,
+         "tilecount":1975,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":36,
          "firstgid":1976,
-         "source":"..\/..\/..\/Downloads\/fall_Waterfalls.tsx"
+         "image":"..\/..\/..\/Downloads\/fall_Waterfalls.png",
+         "imageheight":400,
+         "imagewidth":576,
+         "margin":0,
+         "name":"fall_Waterfalls",
+         "spacing":0,
+         "tilecount":900,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":7,
          "firstgid":2876,
-         "source":"..\/..\/..\/Downloads\/Barn.tsx"
+         "image":"..\/..\/..\/Downloads\/Barn.png",
+         "imageheight":128,
+         "imagewidth":112,
+         "margin":0,
+         "name":"Barn",
+         "spacing":0,
+         "tilecount":56,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":3,
          "firstgid":2932,
-         "source":"..\/..\/..\/Downloads\/Well.tsx"
+         "image":"..\/..\/..\/Downloads\/Well.png",
+         "imageheight":80,
+         "imagewidth":48,
+         "margin":0,
+         "name":"Well",
+         "spacing":0,
+         "tilecount":15,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":4,
          "firstgid":2947,
-         "source":"..\/..\/..\/Downloads\/player.tsx"
+         "image":"..\/..\/..\/Downloads\/player.png",
+         "imageheight":416,
+         "imagewidth":64,
+         "margin":0,
+         "name":"player",
+         "spacing":0,
+         "tilecount":104,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":7,
          "firstgid":3051,
-         "source":"..\/..\/..\/Downloads\/Big_Shed.tsx"
+         "image":"..\/..\/..\/Downloads\/Big_Shed.png",
+         "imageheight":128,
+         "imagewidth":112,
+         "margin":0,
+         "name":"Big_Shed",
+         "spacing":0,
+         "tilecount":56,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":6,
          "firstgid":3107,
-         "source":"..\/..\/..\/Downloads\/Coop.tsx"
+         "image":"..\/..\/..\/Downloads\/Coop.png",
+         "imageheight":128,
+         "imagewidth":96,
+         "margin":0,
+         "name":"Coop",
+         "spacing":0,
+         "tilecount":48,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":15,
          "firstgid":3155,
-         "source":"..\/..\/..\/Downloads\/Log_Cabin.tsx"
+         "image":"..\/..\/..\/Downloads\/Log_Cabin.png",
+         "imageheight":112,
+         "imagewidth":240,
+         "margin":0,
+         "name":"Log_Cabin",
+         "spacing":0,
+         "tilecount":105,
+         "tileheight":16,
+         "tilewidth":16
         }, 
         {
+         "columns":15,
          "firstgid":3260,
-         "source":"..\/..\/..\/Downloads\/Stone_Cabin.tsx"
+         "image":"..\/..\/..\/Downloads\/Stone_Cabin.png",
+         "imageheight":112,
+         "imagewidth":240,
+         "margin":0,
+         "name":"Stone_Cabin",
+         "spacing":0,
+         "tilecount":105,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",
