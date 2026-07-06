@@ -1,70 +1,45 @@
 import Phaser from 'phaser';
+import { PLAYER_CONFIG } from '../player/playerConfig.js';
+import { createPlayerAnimations } from '../player/playerAnimations.js';
+import { updatePlayerMovement } from '../player/playerMovement.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super('GameScene');
     }
 
-    preload() {
-        this.load.tilemapTiledJSON('map', 'assets/map.tmj');
 
-        // Carregar todos os tilesets usados no Tiled
-        this.load.image('Barn', 'assets/Barn.png');
-        this.load.image('Big_Shed', 'assets/Big_Shed.png');
-        this.load.image('Coop', 'assets/Coop.png');
-        this.load.image('fall_Waterfalls', 'assets/fall_Waterfalls.png');
-        this.load.image('Log_Cabin', 'assets/Log_Cabin.png');
-        this.load.image('player', 'assets/player.png');
-        this.load.image('Stone_Cabin', 'assets/Stone_Cabin.png');
-        this.load.image('summer_outdoorsTileSheet', 'assets/summer_outdoorsTileSheet.png');
-        this.load.image('Well', 'assets/Well.png');
+    preload() {
+        this.load.image('mapImage', 'assets/juicetycoonmap.png');
+
+        this.load.spritesheet('player', 'assets/player.png', {
+            frameWidth: PLAYER_CONFIG.FRAME_WIDTH,
+            frameHeight: PLAYER_CONFIG.FRAME_HEIGHT
+        });
     }
 
+
     create() {
-        const map = this.make.tilemap({ key: 'map' });
+        const map = this.add.image(0, 0, 'mapImage').setOrigin(0);
+        map.setDepth(-1);
 
-        // Ligar cada tileset ao nome EXATO do Tiled
-        const tsBarn = map.addTilesetImage('Barn', 'Barn');
-        const tsBigShed = map.addTilesetImage('Big_Shed', 'Big_Shed');
-        const tsCoop = map.addTilesetImage('Coop', 'Coop');
-        const tsFall = map.addTilesetImage('fall_Waterfalls', 'fall_Waterfalls');
-        const tsLogCabin = map.addTilesetImage('Log_Cabin', 'Log_Cabin');
-        const tsPlayer = map.addTilesetImage('player', 'player');
-        const tsStoneCabin = map.addTilesetImage('Stone_Cabin', 'Stone_Cabin');
-        const tsSummer = map.addTilesetImage('summer_outdoorsTileSheet', 'summer_outdoorsTileSheet');
-        const tsWell = map.addTilesetImage('Well', 'Well');
+        const spawn = { x: 625, y: 774 };
 
-        // Lista completa de tilesets
-        const allTilesets = [
-            tsBarn,
-            tsBigShed,
-            tsCoop,
-            tsFall,
-            tsLogCabin,
-            tsPlayer,
-            tsStoneCabin,
-            tsSummer,
-            tsWell
-        ];
+        createPlayerAnimations(this);
 
-        // Criar todas as layers usando TODOS os tilesets
-        map.createLayer('ground', allTilesets, 0, 0);
-        map.createLayer('water', allTilesets, 0, 0);
-        map.createLayer('poco', allTilesets, 0, 0);
+        this.player = this.physics.add.sprite(spawn.x, spawn.y, 'player', 0);
+        this.player.setScale(PLAYER_CONFIG.SCALE);
 
-        map.createLayer('field1', allTilesets, 0, 0);
-        map.createLayer('field2', allTilesets, 0, 0);
-        map.createLayer('field3', allTilesets, 0, 0);
-        map.createLayer('field4', allTilesets, 0, 0);
-        map.createLayer('field5', allTilesets, allTilesets, 0, 0);
+        // Direção Inicial
+        this.player.direction = 'down';
 
-        map.createLayer('trees', allTilesets, 0, 0);
-        map.createLayer('objects', allTilesets, 0, 0);
-        map.createLayer('buildings', allTilesets, 0, 0);
-        map.createLayer('cliffs', allTilesets, 0, 0);
-        map.createLayer('cascade', allTilesets, 0, 0);
+        this.cameras.main.centerOn(spawn.x, spawn.y);
+        this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
 
-        const collisionLayer = map.createLayer('colision', allTilesets, 0, 0);
-        collisionLayer.setCollisionByExclusion([-1]);
+        this.cursors = this.input.keyboard.createCursorKeys();
+    }
+
+    update() {
+        updatePlayerMovement(this, this.player);
     }
 }
