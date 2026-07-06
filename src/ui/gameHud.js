@@ -1,0 +1,72 @@
+export function createHUD(scene, mapWidth, mapHeight) {
+    // Guardar tempo inicial
+    scene.startTime = scene.time.now;
+    scene.gameTime = 0;
+    scene.currentDay = 1;
+
+    // Caixa
+    scene.timeBox = scene.add.graphics();
+    scene.timeBox.setScrollFactor(0);
+    scene.timeBox.setDepth(200);
+
+    scene.timeBox.fillStyle(0x000000, 0.6);
+    scene.timeBox.lineStyle(2, 0xffffff, 0.3);
+
+    scene.timeBox.fillRoundedRect(10, 10, 100, 60, 10);
+    scene.timeBox.strokeRoundedRect(10, 10, 100, 60, 10);
+
+    scene.dayText = scene.add.text(18, 15, "DIA 1", {
+        fontSize: "22px",
+        fill: "#ffffff",
+        fontStyle: "bold"
+    }).setScrollFactor(0).setDepth(201);
+
+    scene.timeText = scene.add.text(18, 45, "00:00", {
+        fontSize: "20px",
+        fill: "#ffffff"
+    }).setScrollFactor(0).setDepth(201);
+
+    scene.nightOverlay = scene.add.rectangle(0, 0, mapWidth, mapHeight, 0x000000, 0)
+        .setOrigin(0)
+        .setScrollFactor(0)
+        .setDepth(50);
+}
+
+
+export function updateHUD(scene) {
+    scene.gameTime = (scene.time.now - scene.startTime) / 1000;
+
+    const DAY_DURATION_SECONDS = 10 * 60;
+    const NIGHT_DURATION_SECONDS = 5 * 60;
+    const CYCLE_DURATION_SECONDS = DAY_DURATION_SECONDS + NIGHT_DURATION_SECONDS;
+    const TRANSITION_DURATION_SECONDS = 30;
+    const MAX_NIGHT_ALPHA = 0.6;
+
+    const minutes = Math.floor(scene.gameTime / 60);
+    const seconds = Math.floor(scene.gameTime % 60);
+
+    scene.timeText.setText(
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+    );
+
+    scene.currentDay = Math.floor(scene.gameTime / CYCLE_DURATION_SECONDS) + 1;
+    scene.dayText.setText(`DIA ${scene.currentDay}`);
+
+    const cycleTime = scene.gameTime % CYCLE_DURATION_SECONDS;
+
+    let nightAlpha = 0;
+
+    if (cycleTime < DAY_DURATION_SECONDS) {
+        nightAlpha = 0;
+    } else if (cycleTime < DAY_DURATION_SECONDS + TRANSITION_DURATION_SECONDS) {
+        const progress = (cycleTime - DAY_DURATION_SECONDS) / TRANSITION_DURATION_SECONDS;
+        nightAlpha = MAX_NIGHT_ALPHA * (progress * progress * (3 - 2 * progress));
+    } else if (cycleTime < CYCLE_DURATION_SECONDS - TRANSITION_DURATION_SECONDS) {
+        nightAlpha = MAX_NIGHT_ALPHA;
+    } else {
+        const progress = (CYCLE_DURATION_SECONDS - cycleTime) / TRANSITION_DURATION_SECONDS;
+        nightAlpha = MAX_NIGHT_ALPHA * (progress * progress * (3 - 2 * progress));
+    }
+
+    scene.nightOverlay.setFillStyle(0x000000, nightAlpha);
+}
