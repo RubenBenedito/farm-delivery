@@ -8,7 +8,6 @@ export default class GameScene extends Phaser.Scene {
         super('GameScene');
     }
 
-
     preload() {
         this.load.image('mapImage', 'assets/juicetycoonmap.png');
 
@@ -18,10 +17,14 @@ export default class GameScene extends Phaser.Scene {
         });
     }
 
-
     create() {
         const map = this.add.image(0, 0, 'mapImage').setOrigin(0);
         map.setDepth(-1);
+
+        const MAP_WIDTH = map.width;
+        const MAP_HEIGHT = map.height;
+
+        this.physics.world.setBounds(0, 0, MAP_WIDTH, MAP_HEIGHT);
 
         const spawn = { x: 625, y: 774 };
 
@@ -30,15 +33,19 @@ export default class GameScene extends Phaser.Scene {
         this.player = this.physics.add.sprite(spawn.x, spawn.y, 'player', 0);
         this.player.setScale(PLAYER_CONFIG.SCALE);
 
-        // Direção Inicial
+        this.player.setCollideWorldBounds(true);
+
+        // Direção inicial
         this.player.direction = 'down';
 
-        this.cameras.main.centerOn(spawn.x, spawn.y);
+        this.cameras.main.setBounds(0, 0, MAP_WIDTH, MAP_HEIGHT);
+
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
 
         this.cursors = this.input.keyboard.createCursorKeys();
     }
 
+    
     update() {
         updatePlayerMovement(this, this.player);
     }
