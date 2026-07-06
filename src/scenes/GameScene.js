@@ -2,10 +2,11 @@ import Phaser from 'phaser';
 import { PLAYER_CONFIG } from '../player/playerConfig.js';
 import { createPlayerAnimations } from '../player/playerAnimations.js';
 import { updatePlayerMovement } from '../player/playerMovement.js';
+import { createHUD, updateHUD } from '../ui/gameHud.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
-        super('GameScene');
+        super('gameScene');
     }
 
     preload() {
@@ -32,21 +33,21 @@ export default class GameScene extends Phaser.Scene {
 
         this.player = this.physics.add.sprite(spawn.x, spawn.y, 'player', 0);
         this.player.setScale(PLAYER_CONFIG.SCALE);
-
         this.player.setCollideWorldBounds(true);
-
-        // Direção inicial
         this.player.direction = 'down';
 
         this.cameras.main.setBounds(0, 0, MAP_WIDTH, MAP_HEIGHT);
-
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
 
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        createHUD(this, MAP_WIDTH, MAP_HEIGHT);
     }
 
-    
+
     update() {
         updatePlayerMovement(this, this.player);
+
+        updateHUD(this);
     }
 }
