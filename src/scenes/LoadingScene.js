@@ -9,7 +9,7 @@ export default class LoadingScene extends Phaser.Scene {
     preload() {
         this.cameras.main.setBackgroundColor('#ffffff');
 
-        this.add.text(this.scale.width / 2, 100, "JUICE TYCOON", {
+        this.add.text(this.scale.width / 2, 100, "FARM DELIVERY", {
             fontSize: '48px',
             color: '#000',
             fontStyle: 'bold'
@@ -46,10 +46,9 @@ export default class LoadingScene extends Phaser.Scene {
 
         this.load.on('complete', () => {
             this.time.delayedCall(500, () => {
-                this.scene.start('MenuScene');
+                this.scene.start('GameScene');
             });
         });
-
 
         this.load.image('mapImage', 'assets/juicetycoonmap.png');
         this.load.spritesheet('player', 'assets/player.png', {
