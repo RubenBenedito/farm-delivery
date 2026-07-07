@@ -6,7 +6,7 @@ import { createHUD, updateHUD } from '../ui/gameHud.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
-        super('gameScene');
+        super('GameScene');
     }
 
     preload() {
