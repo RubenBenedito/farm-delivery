@@ -1,6 +1,8 @@
 export function createPlayerAnimations(scene) {
     const anims = scene.anims;
 
+    if (anims.exists('walk-down')) return;
+
     // Baixo
     anims.create({
         key: 'walk-down',
