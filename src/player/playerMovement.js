@@ -1,27 +1,27 @@
 import { PLAYER_CONFIG } from './playerConfig.js';
 
 export function updatePlayerMovement(scene, player) {
-    const cursors = scene.cursors;
+    const keys = scene.keys;
     const speed = PLAYER_CONFIG.SPEED;
 
     player.setVelocity(0);
 
-    if (cursors.left.isDown) {
+    if (keys.left.isDown) {
         player.setVelocityX(-speed);
         player.anims.play('walk-left', true);
         player.direction = 'left';
     }
-    else if (cursors.right.isDown) {
+    else if (keys.right.isDown) {
         player.setVelocityX(speed);
         player.anims.play('walk-right', true);
         player.direction = 'right';
     }
-    else if (cursors.up.isDown) {
+    else if (keys.up.isDown) {
         player.setVelocityY(-speed);
         player.anims.play('walk-up', true);
         player.direction = 'up';
     }
-    else if (cursors.down.isDown) {
+    else if (keys.down.isDown) {
         player.setVelocityY(speed);
         player.anims.play('walk-down', true);
         player.direction = 'down';
