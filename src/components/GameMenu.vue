@@ -16,6 +16,14 @@ const tab = ref('description');
 function setLang(lang) {
 	emit('set-language', lang);
 }
+
+
+function resumeGame() {
+    window.game.scene.getScene('GameScene').resumeGame();
+    window.game.scene.resume('GameScene');
+    emit('close');
+}
+
 </script>
 
 
@@ -40,9 +48,9 @@ function setLang(lang) {
                 
 
 				<div class="menu-actions">
-					<button class="menu-btn is-primary" @click="emit('close')">
-						{{ text.pause.resume }}
-					</button>
+                    <button class="menu-btn is-primary" @click="resumeGame">
+                        {{ text.pause.resume }}
+                    </button>
 					<button class="menu-btn" @click="emit('restart')">
 						{{ text.mainMenu.restart }}
 					</button>

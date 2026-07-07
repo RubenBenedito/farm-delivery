@@ -34,6 +34,8 @@ export function createHUD(scene, mapWidth, mapHeight) {
 
 
 export function updateHUD(scene) {
+    if (scene.isPaused) return;
+
     scene.gameTime = (scene.time.now - scene.startTime) / 1000;
 
     const DAY_DURATION_SECONDS = 10 * 60;

@@ -37,7 +37,8 @@ const MenuRoot = defineComponent({
 
         const closeMenu = () => {
             open.value = false;
-            game?.scene.resume('GameScene');
+            const scene = game.scene.getScene('GameScene');
+            scene.resumeGame();
         };
 
         const restartGame = () => {
@@ -52,8 +53,11 @@ const MenuRoot = defineComponent({
 
         window.showGameMenu = () => {
             open.value = true;
-            game?.scene.pause('GameScene');
+
+            const scene = game.scene.getScene('GameScene');
+            scene.pauseGame();
         };
+
 
         window.hideGameMenu = closeMenu;
 

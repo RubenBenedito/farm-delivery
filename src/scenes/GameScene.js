@@ -7,6 +7,7 @@ import { createHUD, updateHUD } from '../ui/gameHud.js';
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super('GameScene');
+        this.isPaused = false;
     }
 
     create() {
@@ -37,6 +38,8 @@ export default class GameScene extends Phaser.Scene {
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
 
+        this.keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
         createHUD(this, MAP_WIDTH, MAP_HEIGHT);
 
         window.showGameMenu?.();
@@ -44,8 +47,25 @@ export default class GameScene extends Phaser.Scene {
 
 
     update() {
-        updatePlayerMovement(this, this.player);
-
+        if (Phaser.Input.Keyboard.JustDown(this.keyEsc)) {
+            window.showGameMenu();
+            this.pauseGame();
+        }
+        if (!this.isPaused) {
+            updatePlayerMovement(this, this.player);
+        }
         updateHUD(this);
+    }
+
+
+    pauseGame() {
+        this.isPaused = true;
+        this.scene.pause();
+    }
+
+
+    resumeGame() {
+        this.scene.resume();  
+        this.isPaused = false;
     }
 }
