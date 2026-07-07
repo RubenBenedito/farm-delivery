@@ -15,12 +15,6 @@ export default class LoadingScene extends Phaser.Scene {
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
-        this.add.text(this.scale.width / 2, 160, "FARM", {
-            fontSize: '32px',
-            color: '#00aa00',
-            fontStyle: 'bold'
-        }).setOrigin(0.5);
-
         this.add.text(this.scale.width / 2, 220, "A preparar a quinta...", {
             fontSize: '20px',
             color: '#000'
@@ -44,11 +38,14 @@ export default class LoadingScene extends Phaser.Scene {
             progressBar.fillRect(x, y, barWidth * value, barHeight);
         });
 
+
         this.load.on('complete', () => {
             this.time.delayedCall(500, () => {
-                this.scene.start('GameScene');
+                this.scene.stop('LoadingScene');
+                window.showGameMenu();
             });
         });
+
 
         this.load.image('mapImage', 'assets/juicetycoonmap.png');
         this.load.spritesheet('player', 'assets/player.png', {

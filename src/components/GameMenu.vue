@@ -19,8 +19,15 @@ function setLang(lang) {
 
 
 function resumeGame() {
-    window.game.scene.getScene('GameScene').resumeGame();
-    window.game.scene.resume('GameScene');
+    const game = window.game;
+    const scene = game.scene.getScene('GameScene');
+
+    if (!scene.scene.isActive()) {
+        game.scene.start('GameScene');
+    } else {
+        scene.resumeGame();
+    }
+
     emit('close');
 }
 

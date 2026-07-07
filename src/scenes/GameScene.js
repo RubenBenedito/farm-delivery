@@ -41,19 +41,19 @@ export default class GameScene extends Phaser.Scene {
         this.keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         createHUD(this, MAP_WIDTH, MAP_HEIGHT);
-
-        window.showGameMenu?.();
     }
 
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.keyEsc)) {
-            window.showGameMenu();
             this.pauseGame();
+            window.showGameMenu();
         }
+
         if (!this.isPaused) {
             updatePlayerMovement(this, this.player);
         }
+
         updateHUD(this);
     }
 
@@ -63,9 +63,10 @@ export default class GameScene extends Phaser.Scene {
         this.scene.pause();
     }
 
-
+    
     resumeGame() {
-        this.scene.resume();  
         this.isPaused = false;
+        this.scene.resume();
     }
+
 }

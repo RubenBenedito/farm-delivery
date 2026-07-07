@@ -7,10 +7,8 @@ import { LANGUAGES } from './i18n/index.js';
 
 const config = {
     type: Phaser.AUTO,
-
     width: window.innerWidth,
     height: window.innerHeight,
-
     scene: [LoadingScene, GameScene],
 
     physics: {
@@ -37,38 +35,46 @@ const MenuRoot = defineComponent({
 
         const closeMenu = () => {
             open.value = false;
+
             const scene = game.scene.getScene('GameScene');
             scene.resumeGame();
         };
 
+
         const restartGame = () => {
-            game?.scene.stop('GameScene');
-            game?.scene.start('GameScene');
             open.value = false;
+
+            const scene = game.scene.getScene('GameScene');
+            scene.isPaused = false;
+
+            game.scene.stop('GameScene');
+            game.scene.start('GameScene');
         };
 
+        
         const setLanguage = (lang) => {
             language.value = lang;
         };
+
 
         window.showGameMenu = () => {
             open.value = true;
 
             const scene = game.scene.getScene('GameScene');
-            scene.pauseGame();
+            scene.pauseGame();   // pausa lógica + Phaser
         };
-
 
         window.hideGameMenu = closeMenu;
 
-                return () => h(GameMenu, {
-                        open: open.value,
-                        language: language.value,
-                        text: text.value,
-                        onClose: closeMenu,
-                        onRestart: restartGame,
-                        onSetLanguage: setLanguage
-                });
+        return () =>
+            h(GameMenu, {
+                open: open.value,
+                language: language.value,
+                text: text.value,
+                onClose: closeMenu,
+                onRestart: restartGame,
+                onSetLanguage: setLanguage
+            });
     },
 });
 
