@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import LoadingScene from './scenes/LoadingScene.js';
+import MenuScene from './scenes/MenuScene.js';
 import GameScene from './scenes/GameScene.js';
 
 const config = {
@@ -7,7 +9,7 @@ const config = {
     width: window.innerWidth,
     height: window.innerHeight,
 
-    scene: [GameScene],
+    scene: [LoadingScene, MenuScene, GameScene],
 
     physics: {
         default: 'arcade',
