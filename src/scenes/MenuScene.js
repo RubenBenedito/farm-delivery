@@ -8,7 +8,7 @@ export default class MenuScene extends Phaser.Scene {
     create() {
         this.cameras.main.setBackgroundColor('#ffffff');
 
-        this.add.text(this.scale.width / 2, 100, "Juice", {
+        this.add.text(this.scale.width / 2, 100, "Farm Delivery", {
             fontSize: '48px',
             color: '#000',
             fontStyle: 'bold'
