@@ -63,8 +63,6 @@ defineProps({
     border: 1px solid #b89463;
     padding: 16px 18px;
     color: #4e3924;
-
-    /* 🔥 Correção: altura igual para todos os cards */
     min-height: 180px;
     display: flex;
     flex-direction: column;
