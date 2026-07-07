@@ -9,15 +9,6 @@ export default class GameScene extends Phaser.Scene {
         super('GameScene');
     }
 
-    preload() {
-        this.load.image('mapImage', 'assets/juicetycoonmap.png');
-
-        this.load.spritesheet('player', 'assets/player.png', {
-            frameWidth: PLAYER_CONFIG.FRAME_WIDTH,
-            frameHeight: PLAYER_CONFIG.FRAME_HEIGHT
-        });
-    }
-
     create() {
         const map = this.add.image(0, 0, 'mapImage').setOrigin(0);
         map.setDepth(-1);
@@ -47,6 +38,8 @@ export default class GameScene extends Phaser.Scene {
         });
 
         createHUD(this, MAP_WIDTH, MAP_HEIGHT);
+
+        window.showGameMenu?.();
     }
 
 
