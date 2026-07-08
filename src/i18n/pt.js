@@ -52,5 +52,18 @@ export default {
     saveDownload: "Guardar",
     upload: "Carregar",
     footnote: "Obrigado por jogar!"
+  },
+
+  barnMenu: {
+    title: "Bau do Celeiro",
+    description: "Guarda ferramentas, sementes e colheitas para usar mais tarde.",
+    close: "Fechar",
+    products: {
+      orange: "Laranja",
+      pomegranate: "Romã",
+      pear: "Pera",
+      apple: "Maçã",
+      banana: "Banana"
+    }
   }
 };

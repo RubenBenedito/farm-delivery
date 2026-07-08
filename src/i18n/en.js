@@ -55,5 +55,18 @@ export default {
     saveDownload: "Save",
     upload: "Upload",
     footnote: "Thanks for playing!"
+  },
+
+  barnMenu: {
+    title: "Barn Chest",
+    description: "Stow tools, seeds and harvests to use later.",
+    close: "Close",
+    products: {
+      orange: "Orange",
+      pomegranate: "Pomegranate",
+      pear: "Pear",
+      apple: "Apple",
+      banana: "Banana"
+    }
   }
 };
