@@ -1,10 +1,11 @@
 export function createHUD(scene, mapWidth, mapHeight) {
-    // Guardar tempo inicial
+    // Tempo inicial
     scene.startTime = scene.time.now;
     scene.gameTime = 0;
     scene.currentDay = 1;
 
-    // Caixa
+
+    // Caixa da Esquerda
     scene.timeBox = scene.add.graphics();
     scene.timeBox.setScrollFactor(0);
     scene.timeBox.setDepth(200);
@@ -26,6 +27,38 @@ export function createHUD(scene, mapWidth, mapHeight) {
         fill: "#ffffff"
     }).setScrollFactor(0).setDepth(201);
 
+
+    // Caixa da Direita
+    scene.moneyBox = scene.add.graphics();
+    scene.moneyBox.setScrollFactor(0);
+    scene.moneyBox.setDepth(200);
+
+    scene.moneyBox.fillStyle(0x000000, 0.6);
+    scene.moneyBox.lineStyle(2, 0xffffff, 0.3);
+
+    const boxWidth = 100;
+    const boxHeight = 60;
+    const boxX = mapWidth - boxWidth - 10;
+    const boxY = 10;
+
+    scene.moneyBox.fillRoundedRect(boxX, boxY, boxWidth, boxHeight, 10);
+    scene.moneyBox.strokeRoundedRect(boxX, boxY, boxWidth, boxHeight, 10);
+
+    scene.moneyText = scene.add.text(
+        boxX + 15,
+        boxY + 20,
+        `💰 ${scene.money}`,
+        {
+            fontSize: "22px",
+            fill: "#ffffff",
+            fontStyle: "bold"
+        }
+    )
+    .setScrollFactor(0)
+    .setDepth(201);
+
+
+    // Noite
     scene.nightOverlay = scene.add.rectangle(0, 0, mapWidth, mapHeight, 0x000000, 0)
         .setOrigin(0)
         .setScrollFactor(0)
@@ -55,7 +88,6 @@ export function updateHUD(scene) {
     scene.dayText.setText(`DIA ${scene.currentDay}`);
 
     const cycleTime = scene.gameTime % CYCLE_DURATION_SECONDS;
-
     let nightAlpha = 0;
 
     if (cycleTime < DAY_DURATION_SECONDS) {
@@ -71,4 +103,6 @@ export function updateHUD(scene) {
     }
 
     scene.nightOverlay.setFillStyle(0x000000, nightAlpha);
+
+    scene.moneyText.setText(`💰 ${scene.money}`);
 }

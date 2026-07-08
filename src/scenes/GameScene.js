@@ -12,6 +12,9 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create() {
+        // Dinheiro Inicial
+        this.money = 50;
+
         // Mapa
         const map = this.add.image(0, 0, 'mapImage').setOrigin(0);
         map.setDepth(-1);
@@ -45,7 +48,6 @@ export default class GameScene extends Phaser.Scene {
 
         createHUD(this, MAP_WIDTH, MAP_HEIGHT);
 
-
         this.barn = new Barn(this, 500, 500);
     }
 
@@ -60,6 +62,7 @@ export default class GameScene extends Phaser.Scene {
         if (!this.isPaused) {
             updatePlayerMovement(this, this.player);
         }
+
         updateHUD(this);
     }
 
