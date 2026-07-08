@@ -1,8 +1,12 @@
 import Phaser from 'phaser';
 import { computed, createApp, defineComponent, h, ref } from 'vue';
+
 import LoadingScene from './scenes/LoadingScene.js';
 import GameScene from './scenes/GameScene.js';
+
 import GameMenu from './components/GameMenu.vue';
+import BarnMenu from './components/BarnMenu.vue';
+
 import { LANGUAGES } from './i18n/index.js';
 
 const config = {
@@ -29,20 +33,22 @@ let game = null;
 
 const MenuRoot = defineComponent({
     setup() {
-        const open = ref(false);
+        const pauseOpen = ref(false);
+        const barnOpen = ref(false);
+
         const language = ref('pt');
         const text = computed(() => LANGUAGES[language.value] ?? LANGUAGES.pt);
 
-        const closeMenu = () => {
-            open.value = false;
+
+        const closePauseMenu = () => {
+            pauseOpen.value = false;
 
             const scene = game.scene.getScene('GameScene');
             scene.resumeGame();
         };
 
-
         const restartGame = () => {
-            open.value = false;
+            pauseOpen.value = false;
 
             const scene = game.scene.getScene('GameScene');
             scene.isPaused = false;
@@ -51,30 +57,58 @@ const MenuRoot = defineComponent({
             game.scene.start('GameScene');
         };
 
-        
         const setLanguage = (lang) => {
             language.value = lang;
         };
 
-
         window.showGameMenu = () => {
-            open.value = true;
+            barnOpen.value = false;
+            pauseOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
-            scene.pauseGame();   // pausa lógica + Phaser
+            scene.pauseGame();
         };
 
-        window.hideGameMenu = closeMenu;
+        window.hideGameMenu = closePauseMenu;
 
-        return () =>
-            h(GameMenu, {
-                open: open.value,
-                language: language.value,
-                text: text.value,
-                onClose: closeMenu,
-                onRestart: restartGame,
-                onSetLanguage: setLanguage
-            });
+
+        // Menu Celeiro
+        window.showBarnMenu = () => {
+            pauseOpen.value = false;
+            barnOpen.value = true;
+
+            const scene = game.scene.getScene('GameScene');
+            scene.pauseGame();
+        };
+
+        window.hideBarnMenu = () => {
+            barnOpen.value = false;
+
+            const scene = game.scene.getScene('GameScene');
+            scene.resumeGame();
+        };
+
+
+        return () => [
+            pauseOpen.value
+                ? h(GameMenu, {
+                      open: pauseOpen.value,
+                      language: language.value,
+                      text: text.value,
+                      onClose: closePauseMenu,
+                      onRestart: restartGame,
+                      onSetLanguage: setLanguage
+                  })
+                : null,
+
+            barnOpen.value
+                ? h(BarnMenu, {
+                      open: barnOpen.value,
+                      text: text.value,
+                      onClose: window.hideBarnMenu
+                  })
+                : null
+        ];
     },
 });
 
