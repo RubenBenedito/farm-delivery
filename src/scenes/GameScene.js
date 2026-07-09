@@ -29,6 +29,12 @@ export default class GameScene extends Phaser.Scene {
             this.purchasedSeeds[id] = 0;
         }
 
+        // Produto pronto a vender
+        this.harvest = {};
+        for (const id in PRODUCTS) {
+            this.harvest[id] = 0;
+        }
+
         // Mapa
         const map = this.add.image(0, 0, 'mapImage').setOrigin(0);
         map.setDepth(-1);

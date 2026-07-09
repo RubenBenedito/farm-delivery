@@ -13,11 +13,11 @@ const t = computed(() => props.text?.seedMenu ?? {});
 
 // Preços das sementes
 const prices = {
-    orange: 5,
-    pomegranate: 6,
-    pear: 4,
-    apple: 5,
-    banana: 3
+    alface: 3,
+    cenoura: 4,
+    cebola: 5,
+    morango: 6,
+    pepino: 4
 };
 
 

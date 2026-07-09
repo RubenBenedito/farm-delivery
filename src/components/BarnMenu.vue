@@ -10,12 +10,16 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 
 const t = computed(() => props.text?.barnMenu ?? {});
-const inventory = reactive({});
+
+// Sementes disponíveis e produtos
+const inventorySeeds = reactive({});
+const inventoryHarvest = reactive({});
 
 function syncInventory() {
     const scene = window.game?.scene?.keys?.GameScene;
     for (const id in PRODUCTS) {
-        inventory[id] = scene?.seeds?.[id] ?? PRODUCTS[id].defaultQuantity;
+        inventorySeeds[id] = scene?.seeds?.[id] ?? PRODUCTS[id].defaultQuantity;
+        inventoryHarvest[id] = scene?.harvest?.[id] ?? 0;
     }
 }
 
@@ -43,13 +47,27 @@ function close() {
                 <p>{{ t.description }}</p>
             </header>
 
-            <div class="inventory-grid">
-                <div v-for="p in PRODUCTS" :key="p.id" class="slot">
-                    <img :src="p.image" class="item-icon" />
-                    <div class="item-name">{{ t.products?.[p.id] }}</div>
-                    <div class="item-qty">{{ inventory[p.id] }}</div>
+            <section class="barn-section">
+                <h2 class="section-title">{{ t.sections?.seeds }}</h2>
+                <div class="inventory-grid">
+                    <div v-for="p in PRODUCTS" :key="p.id" class="slot">
+                        <img :src="p.image" class="item-icon" />
+                        <div class="item-name">{{ t.seedsProducts?.[p.id] }}</div>
+                        <div class="item-qty">{{ inventorySeeds[p.id] }}</div>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <section class="barn-section">
+                <h2 class="section-title">{{ t.sections?.harvest }}</h2>
+                <div class="inventory-grid">
+                    <div v-for="p in PRODUCTS" :key="p.id" class="slot">
+                        <img :src="p.image" class="item-icon" />
+                        <div class="item-name">{{ t.harvestProducts?.[p.id] }}</div>
+                        <div class="item-qty">{{ inventoryHarvest[p.id] }}</div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </template>
@@ -153,6 +171,19 @@ function close() {
     margin: 10px 0 0;
     color: rgba(228, 215, 191, 0.76);
     font-size: 1rem;
+}
+
+.barn-section {
+    margin-top: 14px;
+}
+
+.section-title {
+    margin: 0 0 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+    color: rgba(157, 216, 126, 0.92);
+    text-align: left;
 }
 
 .inventory-grid {
