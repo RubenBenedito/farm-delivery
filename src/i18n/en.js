@@ -68,5 +68,13 @@ export default {
       apple: "Apple",
       banana: "Banana"
     }
+  },
+
+  seedMenu: {
+    title: "Seed Shop",
+    description: "Buy seeds to plant on your farm.",
+    close: "Close",
+    buy: "Buy",
+    owned: "Owned"
   }
 };

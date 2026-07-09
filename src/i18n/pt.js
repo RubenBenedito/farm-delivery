@@ -65,5 +65,13 @@ export default {
       apple: "Maçã",
       banana: "Banana"
     }
+  },
+
+  seedMenu: {
+    title: "Loja de Sementes",
+    description: "Compra sementes para plantar na tua quinta.",
+    close: "Fechar",
+    buy: "Comprar",
+    owned: "Compradas"
   }
 };
