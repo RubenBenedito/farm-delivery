@@ -4,6 +4,8 @@ import { createPlayerAnimations } from '../player/playerAnimations.js';
 import { updatePlayerMovement } from '../player/playerMovement.js';
 import { createHUD, updateHUD } from '../ui/gameHud.js';
 import { Barn } from '../objects/Barn.js';
+import { SeedShop } from '../objects/SeedShop.js';
+import { PRODUCTS } from '../items/products.js';
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -14,6 +16,18 @@ export default class GameScene extends Phaser.Scene {
     create() {
         // Dinheiro Inicial
         this.money = 50;
+
+        // Inventário de sementes
+        this.seeds = {};
+        for (const id in PRODUCTS) {
+            this.seeds[id] = PRODUCTS[id].defaultQuantity;
+        }
+
+        // Sementes compradas na loja
+        this.purchasedSeeds = {};
+        for (const id in PRODUCTS) {
+            this.purchasedSeeds[id] = 0;
+        }
 
         // Mapa
         const map = this.add.image(0, 0, 'mapImage').setOrigin(0);
@@ -48,7 +62,11 @@ export default class GameScene extends Phaser.Scene {
 
         createHUD(this, MAP_WIDTH, MAP_HEIGHT);
 
+        // Celeiro
         this.barn = new Barn(this, 500, 500);
+
+        // Loja de Sementes
+        this.seedShop = new SeedShop(this, 1112, 696);
     }
 
 
@@ -58,6 +76,8 @@ export default class GameScene extends Phaser.Scene {
         }
 
         this.barn.update();
+
+        this.seedShop.update();
 
         if (!this.isPaused) {
             updatePlayerMovement(this, this.player);
