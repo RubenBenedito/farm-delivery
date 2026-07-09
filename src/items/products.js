@@ -1,27 +1,27 @@
 export const PRODUCTS = {
-    orange: {
-        id: "orange",
-        image: "items/laranja.png",
+    alface: {
+        id: "alface",
+        image: "items/alface.png",
         defaultQuantity: 5 // valor inicial
     },
-    pomegranate: {
-        id: "pomegranate",
-        image: "items/roma.png",
+    cenoura: {
+        id: "cenoura",
+        image: "items/cenoura.png",
         defaultQuantity: 5
     },
-    pear: {
-        id: "pear",
-        image: "items/pera.png",
+    cebola: {
+        id: "cebola",
+        image: "items/cebola.png",
         defaultQuantity: 5
     },
-    apple: {
-        id: "apple",
-        image: "items/maca.png",
+    morango: {
+        id: "morango",
+        image: "items/morango.png",
         defaultQuantity: 5
     },
-    banana: {
-        id: "banana",
-        image: "items/banana.png",
+    pepino: {
+        id: "pepino",
+        image: "items/pepino.png",
         defaultQuantity: 5
     }
 };
