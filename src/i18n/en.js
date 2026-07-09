@@ -87,5 +87,18 @@ export default {
     close: "Close",
     buy: "Buy",
     owned: "Owned"
+  },
+
+  cabinMenu: {
+    title: "Customer Orders",
+    description: "Deliver harvested products to earn money.",
+    close: "Close",
+    empty: "No orders right now",
+    emptyHint: "Come back later for new orders!",
+    asking: "Wants",
+    have: "You have:",
+    deliver: "Deliver",
+    delivered: "Delivered",
+    active: "active orders"
   }
 };

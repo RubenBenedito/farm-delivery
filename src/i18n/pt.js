@@ -84,5 +84,18 @@ export default {
     close: "Fechar",
     buy: "Comprar",
     owned: "Compradas"
+  },
+
+  cabinMenu: {
+    title: "Pedidos de Clientes",
+    description: "Entrega os produtos colhidos para ganhar dinheiro.",
+    close: "Fechar",
+    empty: "Sem pedidos de momento",
+    emptyHint: "Volta mais tarde para ver novos pedidos!",
+    asking: "Quer",
+    have: "Tens:",
+    deliver: "Entregar",
+    delivered: "Entregue",
+    active: "pedidos ativos"
   }
 };
