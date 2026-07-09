@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, onMounted } from 'vue';
+import { reactive, computed, onMounted, watch } from 'vue';
 import { PRODUCTS } from '../items/products.js';
 
 const props = defineProps({
@@ -12,10 +12,20 @@ const emit = defineEmits(['close']);
 const t = computed(() => props.text?.barnMenu ?? {});
 const inventory = reactive({});
 
-onMounted(() => {
+function syncInventory() {
+    const scene = window.game?.scene?.keys?.GameScene;
     for (const id in PRODUCTS) {
-        inventory[id] = PRODUCTS[id].defaultQuantity;
+        inventory[id] = scene?.seeds?.[id] ?? PRODUCTS[id].defaultQuantity;
     }
+}
+
+onMounted(() => {
+    syncInventory();
+});
+
+
+watch(() => props.open, (isOpen) => {
+    if (isOpen) syncInventory();
 });
 
 function close() {

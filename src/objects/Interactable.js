@@ -26,18 +26,46 @@ export class Interactable {
 
         if (this.showPrompt) {
             if (!this.promptText) {
+                // Fundo escuro
+                this.promptBg = this.scene.add.rectangle(
+                    this.scene.player.x,
+                    this.scene.player.y - 40,
+                    28,
+                    28,
+                    0x000000,
+                    0.75
+                ).setOrigin(0.5).setDepth(999).setStrokeStyle(2, 0xffffff, 0.9);
+
                 this.promptText = this.scene.add.text(
                     this.scene.player.x,
                     this.scene.player.y - 40,
                     "F",
-                    { fontSize: "18px", color: "#fff", fontStyle: "bold" }
-                ).setOrigin(0.5).setDepth(999);
+                    {
+                        fontFamily: 'Arial, sans-serif',
+                        fontSize: '20px',
+                        fontStyle: 'bold',
+                        color: '#ffffff',
+                        stroke: '#000000',
+                        strokeThickness: 4,
+                        shadow: {
+                            offsetX: 0,
+                            offsetY: 2,
+                            color: '#000000',
+                            blur: 4,
+                            stroke: true,
+                            fill: true
+                        }
+                    }
+                ).setOrigin(0.5).setDepth(1000);
             } else {
+                this.promptBg.setPosition(this.scene.player.x, this.scene.player.y - 40);
                 this.promptText.setPosition(this.scene.player.x, this.scene.player.y - 40);
+                this.promptBg.setVisible(true);
                 this.promptText.setVisible(true);
             }
-        } else {
-            if (this.promptText) this.promptText.setVisible(false);
+        } else if (this.promptText) {
+            this.promptText.setVisible(false);
+            this.promptBg.setVisible(false);
         }
 
         if (this.showPrompt && Phaser.Input.Keyboard.JustDown(this.keyF)) {
