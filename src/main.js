@@ -1,12 +1,10 @@
 import Phaser from 'phaser';
 import { computed, createApp, defineComponent, h, ref } from 'vue';
-
 import LoadingScene from './scenes/LoadingScene.js';
 import GameScene from './scenes/GameScene.js';
-
 import GameMenu from './components/GameMenu.vue';
 import BarnMenu from './components/BarnMenu.vue';
-
+import SeedShopMenu from './components/SeedShopMenu.vue';
 import { LANGUAGES } from './i18n/index.js';
 
 const config = {
@@ -35,6 +33,7 @@ const MenuRoot = defineComponent({
     setup() {
         const pauseOpen = ref(false);
         const barnOpen = ref(false);
+        const seedShopOpen = ref(false);
 
         const language = ref('pt');
         const text = computed(() => LANGUAGES[language.value] ?? LANGUAGES.pt);
@@ -63,6 +62,7 @@ const MenuRoot = defineComponent({
 
         window.showGameMenu = () => {
             barnOpen.value = false;
+            seedShopOpen.value = false;
             pauseOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -72,9 +72,10 @@ const MenuRoot = defineComponent({
         window.hideGameMenu = closePauseMenu;
 
 
-        // Menu Celeiro
+        // Menu do Celeiro
         window.showBarnMenu = () => {
             pauseOpen.value = false;
+            seedShopOpen.value = false;
             barnOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -89,6 +90,25 @@ const MenuRoot = defineComponent({
         };
 
 
+        // Menu Loja de Sementes
+        window.showSeedShopMenu = () => {
+            pauseOpen.value = false;
+            barnOpen.value = false;
+            seedShopOpen.value = true;
+
+            const scene = game.scene.getScene('GameScene');
+            scene.pauseGame();
+        };
+
+        window.hideSeedShopMenu = () => {
+            seedShopOpen.value = false;
+
+            const scene = game.scene.getScene('GameScene');
+            scene.resumeGame();
+        };
+
+
+        // Menus
         return () => [
             pauseOpen.value
                 ? h(GameMenu, {
@@ -106,6 +126,14 @@ const MenuRoot = defineComponent({
                       open: barnOpen.value,
                       text: text.value,
                       onClose: window.hideBarnMenu
+                  })
+                : null,
+
+            seedShopOpen.value
+                ? h(SeedShopMenu, {
+                      open: seedShopOpen.value,
+                      text: text.value,
+                      onClose: window.hideSeedShopMenu
                   })
                 : null
         ];
