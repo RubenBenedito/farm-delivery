@@ -5,6 +5,7 @@ import GameScene from './scenes/GameScene.js';
 import GameMenu from './components/GameMenu.vue';
 import BarnMenu from './components/BarnMenu.vue';
 import SeedShopMenu from './components/SeedShopMenu.vue';
+import StoneCabinMenu from './components/StoneCabinMenu.vue';
 import { LANGUAGES } from './i18n/index.js';
 
 const config = {
@@ -34,24 +35,21 @@ const MenuRoot = defineComponent({
         const pauseOpen = ref(false);
         const barnOpen = ref(false);
         const seedShopOpen = ref(false);
+        const cabinOpen = ref(false);
 
         const language = ref('pt');
         const text = computed(() => LANGUAGES[language.value] ?? LANGUAGES.pt);
 
-
         const closePauseMenu = () => {
             pauseOpen.value = false;
-
             const scene = game.scene.getScene('GameScene');
             scene.resumeGame();
         };
 
         const restartGame = () => {
             pauseOpen.value = false;
-
             const scene = game.scene.getScene('GameScene');
             scene.isPaused = false;
-
             game.scene.stop('GameScene');
             game.scene.start('GameScene');
         };
@@ -63,6 +61,7 @@ const MenuRoot = defineComponent({
         window.showGameMenu = () => {
             barnOpen.value = false;
             seedShopOpen.value = false;
+            cabinOpen.value = false;
             pauseOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -72,10 +71,11 @@ const MenuRoot = defineComponent({
         window.hideGameMenu = closePauseMenu;
 
 
-        // Menu do Celeiro
+        // Menu Celeiro
         window.showBarnMenu = () => {
             pauseOpen.value = false;
             seedShopOpen.value = false;
+            cabinOpen.value = false;
             barnOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -84,7 +84,6 @@ const MenuRoot = defineComponent({
 
         window.hideBarnMenu = () => {
             barnOpen.value = false;
-
             const scene = game.scene.getScene('GameScene');
             scene.resumeGame();
         };
@@ -94,6 +93,7 @@ const MenuRoot = defineComponent({
         window.showSeedShopMenu = () => {
             pauseOpen.value = false;
             barnOpen.value = false;
+            cabinOpen.value = false;
             seedShopOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -102,13 +102,29 @@ const MenuRoot = defineComponent({
 
         window.hideSeedShopMenu = () => {
             seedShopOpen.value = false;
-
             const scene = game.scene.getScene('GameScene');
             scene.resumeGame();
         };
 
 
-        // Menus
+        // Menu Pedidos de Clientes
+        window.showStoneCabinMenu = () => {
+            pauseOpen.value = false;
+            barnOpen.value = false;
+            seedShopOpen.value = false;
+            cabinOpen.value = true;
+
+            const scene = game.scene.getScene('GameScene');
+            scene.pauseGame();
+        };
+
+        window.hideStoneCabinMenu = () => {
+            cabinOpen.value = false;
+            const scene = game.scene.getScene('GameScene');
+            scene.resumeGame();
+        };
+
+
         return () => [
             pauseOpen.value
                 ? h(GameMenu, {
@@ -134,6 +150,14 @@ const MenuRoot = defineComponent({
                       open: seedShopOpen.value,
                       text: text.value,
                       onClose: window.hideSeedShopMenu
+                  })
+                : null,
+
+            cabinOpen.value
+                ? h(StoneCabinMenu, {
+                      open: cabinOpen.value,
+                      text: text.value,
+                      onClose: window.hideStoneCabinMenu
                   })
                 : null
         ];

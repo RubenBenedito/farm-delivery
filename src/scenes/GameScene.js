@@ -5,6 +5,7 @@ import { updatePlayerMovement } from '../player/playerMovement.js';
 import { createHUD, updateHUD } from '../ui/gameHud.js';
 import { Barn } from '../objects/Barn.js';
 import { SeedShop } from '../objects/SeedShop.js';
+import { StoneCabin } from '../objects/StoneCabin.js';
 import { PRODUCTS } from '../items/products.js';
 
 export default class GameScene extends Phaser.Scene {
@@ -29,11 +30,14 @@ export default class GameScene extends Phaser.Scene {
             this.purchasedSeeds[id] = 0;
         }
 
-        // Produto pronto a vender
+        // Produtos colhidos
         this.harvest = {};
         for (const id in PRODUCTS) {
             this.harvest[id] = 0;
         }
+
+        // Pedidos de clientes
+        this.orders = [];
 
         // Mapa
         const map = this.add.image(0, 0, 'mapImage').setOrigin(0);
@@ -73,8 +77,44 @@ export default class GameScene extends Phaser.Scene {
 
         // Loja de Sementes
         this.seedShop = new SeedShop(this, 1112, 696);
+
+        // Pedidos de Clientes
+        this.stoneCabin = new StoneCabin(this, 791, 728);
+
+        // Gerar pedidos automaticamente
+        this.time.addEvent({
+            delay: 8000,
+            callback: () => this.generateOrder(),
+            loop: true
+        });
     }
 
+    generateOrder() {
+        const items = Object.keys(PRODUCTS);
+        const item = items[Math.floor(Math.random() * items.length)];
+        const quantity = Math.floor(Math.random() * 3) + 1;
+
+        // Preço de venda dinâmico
+        const prod = PRODUCTS[item];
+        const base = prod?.seedBasePrice ?? 2;
+        const [minSell, maxSell] = prod?.sellRange ?? [base * 2, base * 2 + 2];
+
+        const safeMin = Math.max(minSell, base + 3);
+        const safeMax = Math.max(safeMin, maxSell);
+        const pricePerUnit = Math.floor(Math.random() * (safeMax - safeMin + 1)) + safeMin;
+
+        const MAX_ORDERS = 5;
+        this.orders = this.orders.filter(o => !o.delivered);
+        if (this.orders.length >= MAX_ORDERS) return;
+
+        this.orders.push({
+            id: Date.now(),
+            item,
+            quantity,
+            pricePerUnit,
+            delivered: false
+        });
+    }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.keyEsc)) {
@@ -82,8 +122,8 @@ export default class GameScene extends Phaser.Scene {
         }
 
         this.barn.update();
-
         this.seedShop.update();
+        this.stoneCabin.update();
 
         if (!this.isPaused) {
             updatePlayerMovement(this, this.player);
@@ -92,12 +132,10 @@ export default class GameScene extends Phaser.Scene {
         updateHUD(this);
     }
 
-
     pauseGame() {
         this.isPaused = true;
         window.game?.scene?.pause?.('GameScene');
     }
-
 
     resumeGame() {
         this.isPaused = false;
