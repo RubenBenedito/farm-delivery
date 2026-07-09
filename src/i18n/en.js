@@ -70,14 +70,20 @@ export default {
       cenoura: "Carrot Seeds",
       cebola: "Onion Seeds",
       morango: "Strawberry Seeds",
-      pepino: "Cucumber Seeds"
+      pepino: "Cucumber Seeds",
+      batata: "Potato Seeds",
+      couve: "Kale Seeds",
+      melancia: "Watermelon Seeds"
     },
     harvestProducts: {
       alface: "Lettuce",
       cenoura: "Carrot",
       cebola: "Onion",
       morango: "Strawberry",
-      pepino: "Cucumber"
+      pepino: "Cucumber",
+      batata: "Potato",
+      couve: "Kale",
+      melancia: "Watermelon"
     }
   },
 
@@ -100,5 +106,12 @@ export default {
     deliver: "Deliver",
     delivered: "Delivered",
     active: "active orders"
+  },
+
+  upgradeMenu: {
+    title: "Upgrade Shop",
+    description: "Spend your coins on improvements to your farm and fields.",
+    close: "Close",
+    buy: "Buy"
   }
 };

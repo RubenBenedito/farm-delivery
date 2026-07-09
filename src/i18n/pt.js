@@ -67,14 +67,20 @@ export default {
       cenoura: "Sementes de Cenoura",
       cebola: "Sementes de Cebola",
       morango: "Sementes de Morango",
-      pepino: "Sementes de Pepino"
+      pepino: "Sementes de Pepino",
+      batata: "Sementes de Batata",
+      couve: "Sementes de Couve",
+      melancia: "Sementes de Melancia"
     },
     harvestProducts: {
       alface: "Alface",
       cenoura: "Cenoura",
       cebola: "Cebola",
       morango: "Morango",
-      pepino: "Pepino"
+      pepino: "Pepino",
+      batata: "Batata",
+      couve: "Couve",
+      melancia: "Melancia"
     }
   },
 
@@ -97,5 +103,12 @@ export default {
     deliver: "Entregar",
     delivered: "Entregue",
     active: "pedidos ativos"
+  },
+
+  upgradeMenu: {
+    title: "Loja de Upgrades",
+    description: "Gasta o teu dinheiro em melhorias para a quinta e campos agrícolas.",
+    close: "Fechar",
+    buy: "Comprar"
   }
 };
