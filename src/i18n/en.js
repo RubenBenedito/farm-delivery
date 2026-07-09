@@ -61,12 +61,23 @@ export default {
     title: "Barn Chest",
     description: "Stow tools, seeds and harvests to use later.",
     close: "Close",
-    products: {
-      orange: "Orange",
-      pomegranate: "Pomegranate",
-      pear: "Pear",
-      apple: "Apple",
-      banana: "Banana"
+    sections: {
+      seeds: "Seeds",
+      harvest: "Products ready to sell"
+    },
+    seedsProducts: {
+      alface: "Lettuce Seeds",
+      cenoura: "Carrot Seeds",
+      cebola: "Onion Seeds",
+      morango: "Strawberry Seeds",
+      pepino: "Cucumber Seeds"
+    },
+    harvestProducts: {
+      alface: "Lettuce",
+      cenoura: "Carrot",
+      cebola: "Onion",
+      morango: "Strawberry",
+      pepino: "Cucumber"
     }
   },
 

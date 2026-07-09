@@ -58,12 +58,23 @@ export default {
     title: "Bau do Celeiro",
     description: "Guarda ferramentas, sementes e colheitas para usar mais tarde.",
     close: "Fechar",
-    products: {
-      orange: "Laranja",
-      pomegranate: "Romã",
-      pear: "Pera",
-      apple: "Maçã",
-      banana: "Banana"
+    sections: {
+      seeds: "Sementes",
+      harvest: "Produtos prontos a vender"
+    },
+    seedsProducts: {
+      alface: "Sementes de Alface",
+      cenoura: "Sementes de Cenoura",
+      cebola: "Sementes de Cebola",
+      morango: "Sementes de Morango",
+      pepino: "Sementes de Pepino"
+    },
+    harvestProducts: {
+      alface: "Alface",
+      cenoura: "Cenoura",
+      cebola: "Cebola",
+      morango: "Morango",
+      pepino: "Pepino"
     }
   },
 
