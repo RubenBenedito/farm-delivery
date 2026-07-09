@@ -88,21 +88,15 @@ export default class GameScene extends Phaser.Scene {
 
 
     pauseGame() {
-        if (!this.scene.isActive() || this.scene.isPaused()) {
-            this.isPaused = true;
-            return;
-        }
         this.isPaused = true;
-        this.scene.pause();
+        window.game?.scene?.pause?.('GameScene');
     }
 
 
     resumeGame() {
-        if (!this.scene.isPaused()) {
-            this.isPaused = false;
-            return;
-        }
         this.isPaused = false;
-        this.scene.resume();
+        if (window.game?.scene?.isPaused?.('GameScene')) {
+            window.game.scene.resume('GameScene');
+        }
     }
 }

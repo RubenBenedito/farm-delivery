@@ -21,11 +21,16 @@ function setLang(lang) {
 function resumeGame() {
     const game = window.game;
     const scene = game.scene.getScene('GameScene');
+    const isPaused = scene?.scene?.isPaused?.('GameScene');
+    const isActive = scene?.scene?.isActive?.('GameScene');
 
-    if (!scene.scene.isActive()) {
+    if (!scene || (!isPaused && !isActive)) {
+        if (scene) scene.isPaused = false;
         game.scene.start('GameScene');
-    } else {
+    } else if (isPaused) {
         scene.resumeGame();
+    } else {
+        scene.isPaused = false;
     }
 
     emit('close');
