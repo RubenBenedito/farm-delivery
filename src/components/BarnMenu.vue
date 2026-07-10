@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, onMounted, watch } from 'vue';
+import { reactive, ref, computed, onMounted, watch } from 'vue';
 import { PRODUCTS } from '../items/products.js';
 
 const props = defineProps({
@@ -21,7 +21,22 @@ function syncInventory() {
         inventorySeeds[id] = scene?.seeds?.[id] ?? PRODUCTS[id].defaultQuantity;
         inventoryHarvest[id] = scene?.harvest?.[id] ?? 0;
     }
+    syncUnlocked(); // Refresh
 }
+
+const unlockedIds = ref([]);
+
+// Sincroniza os itens desbloqueados
+function syncUnlocked() {
+    const scene = window.game?.scene?.keys?.GameScene;
+    unlockedIds.value = scene?.unlockedItems ?? [];
+}
+
+const visibleProducts = computed(() =>
+    Object.values(PRODUCTS).filter(
+        (p) => !p.locked || unlockedIds.value.includes(p.id)
+    )
+);
 
 onMounted(() => {
     syncInventory();
@@ -50,9 +65,10 @@ function close() {
             <section class="barn-section">
                 <h2 class="section-title">{{ t.sections?.seeds }}</h2>
                 <div class="inventory-grid">
-                    <div v-for="p in PRODUCTS" :key="p.id" class="slot">
-                        <img :src="p.image" class="item-icon" />
-                        <div class="item-name">{{ t.seedsProducts?.[p.id] }}</div>
+                    <div v-for="p in visibleProducts" :key="p.id" class="slot">
+                        <img v-if="p.image" :src="p.image" class="item-icon" :alt="p.id" />
+                        <span v-else class="item-icon-fallback">📦</span>
+                        <div class="item-name">{{ t.seedsProducts?.[p.id] ?? p.id }}</div>
                         <div class="item-qty">{{ inventorySeeds[p.id] }}</div>
                     </div>
                 </div>
@@ -61,9 +77,10 @@ function close() {
             <section class="barn-section">
                 <h2 class="section-title">{{ t.sections?.harvest }}</h2>
                 <div class="inventory-grid">
-                    <div v-for="p in PRODUCTS" :key="p.id" class="slot">
-                        <img :src="p.image" class="item-icon" />
-                        <div class="item-name">{{ t.harvestProducts?.[p.id] }}</div>
+                    <div v-for="p in visibleProducts" :key="p.id" class="slot">
+                        <img v-if="p.image" :src="p.image" class="item-icon" :alt="p.id" />
+                        <span v-else class="item-icon-fallback">📦</span>
+                        <div class="item-name">{{ t.harvestProducts?.[p.id] ?? p.id }}</div>
                         <div class="item-qty">{{ inventoryHarvest[p.id] }}</div>
                     </div>
                 </div>
@@ -224,6 +241,17 @@ function close() {
     height: 40px;
     margin-bottom: 6px;
     image-rendering: pixelated;
+}
+
+.item-icon-fallback {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+    background: rgba(0, 0, 0, .25);
+    border-radius: 10px;
 }
 
 .item-name {

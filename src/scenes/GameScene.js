@@ -6,6 +6,7 @@ import { createHUD, updateHUD } from '../ui/gameHud.js';
 import { Barn } from '../objects/Barn.js';
 import { SeedShop } from '../objects/SeedShop.js';
 import { StoneCabin } from '../objects/StoneCabin.js';
+import { UpgradeShop } from '../objects/UpgradeShop.js';
 import { PRODUCTS } from '../items/products.js';
 
 export default class GameScene extends Phaser.Scene {
@@ -38,6 +39,10 @@ export default class GameScene extends Phaser.Scene {
 
         // Pedidos de clientes
         this.orders = [];
+
+        // Upgrades
+        this.unlockedItems = [];
+        this.unlockedFields = [1, 2]; // field3, field4, field5 bloqueados
 
         // Mapa
         const map = this.add.image(0, 0, 'mapImage').setOrigin(0);
@@ -81,6 +86,9 @@ export default class GameScene extends Phaser.Scene {
         // Pedidos de Clientes
         this.stoneCabin = new StoneCabin(this, 791, 728);
 
+        // Loja de Upgrades
+        this.upgradeShop = new UpgradeShop(this, 840, 568);
+
         // Gerar pedidos automaticamente
         this.time.addEvent({
             delay: 8000,
@@ -90,13 +98,15 @@ export default class GameScene extends Phaser.Scene {
     }
 
     generateOrder() {
-        const items = Object.keys(PRODUCTS);
+        const items = Object.keys(PRODUCTS).filter(
+            (id) => !PRODUCTS[id]?.locked || (this.unlockedItems ?? []).includes(id)
+        );
+        if (items.length === 0) return; // sem nada para oferecer, sai
         const item = items[Math.floor(Math.random() * items.length)];
         const quantity = Math.floor(Math.random() * 3) + 1;
 
-        // Preço de venda dinâmico
         const prod = PRODUCTS[item];
-        const base = prod?.seedBasePrice ?? 2;
+        const base = prod?.buyPrice ?? 2;
         const [minSell, maxSell] = prod?.sellRange ?? [base * 2, base * 2 + 2];
 
         const safeMin = Math.max(minSell, base + 3);
@@ -124,6 +134,7 @@ export default class GameScene extends Phaser.Scene {
         this.barn.update();
         this.seedShop.update();
         this.stoneCabin.update();
+        this.upgradeShop.update();
 
         if (!this.isPaused) {
             updatePlayerMovement(this, this.player);

@@ -6,6 +6,7 @@ import GameMenu from './components/GameMenu.vue';
 import BarnMenu from './components/BarnMenu.vue';
 import SeedShopMenu from './components/SeedShopMenu.vue';
 import StoneCabinMenu from './components/StoneCabinMenu.vue';
+import UpgradeShopMenu from './components/UpgradeShopMenu.vue';
 import { LANGUAGES } from './i18n/index.js';
 
 const config = {
@@ -36,6 +37,7 @@ const MenuRoot = defineComponent({
         const barnOpen = ref(false);
         const seedShopOpen = ref(false);
         const cabinOpen = ref(false);
+        const upgradeOpen = ref(false);
 
         const language = ref('pt');
         const text = computed(() => LANGUAGES[language.value] ?? LANGUAGES.pt);
@@ -58,10 +60,13 @@ const MenuRoot = defineComponent({
             language.value = lang;
         };
 
+
+        // Menu Pausa
         window.showGameMenu = () => {
             barnOpen.value = false;
             seedShopOpen.value = false;
             cabinOpen.value = false;
+            upgradeOpen.value = false;
             pauseOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -76,6 +81,7 @@ const MenuRoot = defineComponent({
             pauseOpen.value = false;
             seedShopOpen.value = false;
             cabinOpen.value = false;
+            upgradeOpen.value = false;
             barnOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -94,6 +100,7 @@ const MenuRoot = defineComponent({
             pauseOpen.value = false;
             barnOpen.value = false;
             cabinOpen.value = false;
+            upgradeOpen.value = false;
             seedShopOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -112,6 +119,7 @@ const MenuRoot = defineComponent({
             pauseOpen.value = false;
             barnOpen.value = false;
             seedShopOpen.value = false;
+            upgradeOpen.value = false;
             cabinOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -120,6 +128,25 @@ const MenuRoot = defineComponent({
 
         window.hideStoneCabinMenu = () => {
             cabinOpen.value = false;
+            const scene = game.scene.getScene('GameScene');
+            scene.resumeGame();
+        };
+
+
+        // Menu Loja de Upgrades
+        window.showUpgradeShopMenu = () => {
+            pauseOpen.value = false;
+            barnOpen.value = false;
+            seedShopOpen.value = false;
+            cabinOpen.value = false;
+            upgradeOpen.value = true;
+
+            const scene = game.scene.getScene('GameScene');
+            scene.pauseGame();
+        };
+
+        window.hideUpgradeShopMenu = () => {
+            upgradeOpen.value = false;
             const scene = game.scene.getScene('GameScene');
             scene.resumeGame();
         };
@@ -158,6 +185,14 @@ const MenuRoot = defineComponent({
                       open: cabinOpen.value,
                       text: text.value,
                       onClose: window.hideStoneCabinMenu
+                  })
+                : null,
+
+            upgradeOpen.value
+                ? h(UpgradeShopMenu, {
+                      open: upgradeOpen.value,
+                      text: text.value,
+                      onClose: window.hideUpgradeShopMenu
                   })
                 : null
         ];

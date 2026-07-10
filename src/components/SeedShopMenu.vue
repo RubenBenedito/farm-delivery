@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, computed, onMounted } from 'vue';
+import { reactive, ref, computed, onMounted, watch } from 'vue';
 import { PRODUCTS } from '../items/products.js';
 
 const props = defineProps({
@@ -11,20 +11,27 @@ const emit = defineEmits(['close']);
 
 const t = computed(() => props.text?.seedMenu ?? {});
 
-// Preços das sementes
-const prices = {
-    alface: 3,
-    cenoura: 4,
-    cebola: 5,
-    morango: 6,
-    pepino: 4
-};
+const unlockedIds = ref([]);
 
+// Sincroniza os items desbloqueados
+function syncUnlocked() {
+    const s = window.game?.scene?.keys?.GameScene;
+    unlockedIds.value = s?.unlockedItems ?? [];
+}
+
+const visibleProducts = computed(() =>
+    Object.values(PRODUCTS).filter(
+        (p) => !p.locked || unlockedIds.value.includes(p.id)
+    )
+);
+
+function buyPriceOf(id) {
+    return PRODUCTS[id]?.buyPrice ?? 2;
+}
 
 // Inventário de sementes compradas
 const seedInventory = reactive({});
 
-// Sincronizar o inventário de sementes 
 function syncSeeds() {
     const scene = window.game?.scene?.keys?.GameScene;
     for (const id in PRODUCTS) {
@@ -32,8 +39,18 @@ function syncSeeds() {
     }
 }
 
-onMounted(() => {
+// Sincroniza todos os dados da loja
+function syncAll() {
     syncSeeds();
+    syncUnlocked();
+    refreshMoney();
+}
+
+onMounted(syncAll);
+
+// Sincroniza a loja
+watch(() => props.open, (isOpen) => {
+    if (isOpen) syncAll();
 });
 
 const money = ref(window.game?.scene?.keys?.GameScene?.money ?? 0);
@@ -43,11 +60,12 @@ function refreshMoney() {
     if (scene) money.value = scene.money;
 }
 
+// Comprar sementes
 function buy(id) {
     const scene = window.game?.scene?.keys?.GameScene;
     if (!scene) return;
 
-    const price = prices[id];
+    const price = buyPriceOf(id);
     if (scene.money >= price) {
         scene.money -= price;
 
@@ -78,11 +96,12 @@ function close() {
             </header>
 
             <div class="seedshop-grid">
-                <div v-for="p in PRODUCTS" :key="p.id" class="slot">
-                    <img :src="p.image" class="item-icon" />
-                    <div class="item-name">{{ text.barnMenu?.products?.[p.id] ?? p.id }}</div>
+                <div v-for="p in visibleProducts" :key="p.id" class="slot">
+                    <img v-if="p.image" :src="p.image" class="item-icon" :alt="p.id" />
+                    <span v-else class="item-icon-fallback">📦</span>
+                    <div class="item-name">{{ text.barnMenu?.seedsProducts?.[p.id] ?? text.barnMenu?.products?.[p.id] ?? p.id }}</div>
                     <div class="item-price">
-                        <span class="coin">●</span> {{ prices[p.id] }}
+                        <span class="coin">●</span> {{ buyPriceOf(p.id) }}
                     </div>
                     <div class="item-owned">{{ seedInventory[p.id] || 0 }} {{ t.owned || 'Owned' }}</div>
                     <button class="item-buy" @click="buy(p.id)">{{ t.buy || 'Comprar' }}</button>
@@ -104,7 +123,6 @@ function close() {
     box-sizing: border-box;
 }
 
-/* Fundo Escuro */
 .seedshop-overlay {
     position: fixed;
     inset: 0;
@@ -132,16 +150,13 @@ function close() {
     visibility: visible;
 }
 
-/* Menu */
 .seedshop-frame {
     position: relative;
     width: min(720px, 100%);
-
     border-radius: 24px;
     border: 1px solid rgba(201, 150, 84, 0.35);
     background: linear-gradient(180deg, rgba(4, 8, 26, 0.98), rgba(2, 6, 18, 0.98));
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-
     padding: 28px 28px 24px;
     text-align: center;
 }
@@ -177,23 +192,14 @@ function close() {
     outline-offset: 2px;
 }
 
-.seedshop-header {
-    margin-top: 6px;
-    margin-bottom: 18px;
-}
-
+.seedshop-header { margin-top: 6px; margin-bottom: 18px; }
 .seedshop-header h1 {
     margin: 0;
     font-family: 'Press Start 2P', monospace;
     font-size: clamp(1.1rem, 2.6vw, 1.7rem);
     color: #eddcb7;
 }
-
-.seedshop-header p {
-    margin: 10px 0 0;
-    color: rgba(228, 215, 191, 0.76);
-    font-size: 1rem;
-}
+.seedshop-header p { margin: 10px 0 0; color: rgba(228, 215, 191, 0.76); font-size: 1rem; }
 
 .seedshop-grid {
     display: grid;
@@ -202,17 +208,8 @@ function close() {
     margin-top: 8px;
 }
 
-@media (max-width: 640px) {
-    .seedshop-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 420px) {
-    .seedshop-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+@media (max-width: 640px) { .seedshop-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 420px) { .seedshop-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .slot {
     background: rgba(255, 255, 255, 0.07);
@@ -235,31 +232,21 @@ function close() {
     image-rendering: pixelated;
 }
 
-.item-name {
-    font-size: 13px;
-    font-weight: 700;
-    color: #eddcb7;
+.item-icon-fallback {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
 }
 
-.item-price {
-    font-size: 11px;
-    color: rgba(255, 213, 119, 0.92);
-    margin: 6px 0 4px;
-    font-weight: 600;
-}
-
-.coin {
-    color: #ffd47a;
-    margin-right: 2px;
-}
-
-.item-owned {
-    font-size: 10px;
-    color: rgba(228, 215, 191, 0.7);
-    margin-bottom: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
+.item-name { font-size: 13px; font-weight: 700; color: #eddcb7; }
+.item-price { font-size: 11px; color: rgba(255, 213, 119, 0.92); margin: 6px 0 4px; font-weight: 600; }
+.coin { color: #ffd47a; margin-right: 2px; }
+.item-owned { font-size: 10px; color: rgba(228, 215, 191, 0.7); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
 
 .item-buy {
     cursor: pointer;
@@ -273,16 +260,12 @@ function close() {
     font-family: 'Outfit', sans-serif;
     transition: filter 120ms ease, transform 120ms ease, border-color 120ms ease;
 }
-
 .item-buy:hover {
     filter: brightness(1.2);
     border-color: rgba(214, 154, 55, 0.7);
     transform: translateY(-1px);
 }
-
-.item-buy:active {
-    transform: translateY(0);
-}
+.item-buy:active { transform: translateY(0); }
 
 .seedshop-footer {
     margin-top: 18px;
@@ -290,10 +273,5 @@ function close() {
     border-top: 1px solid rgba(201, 150, 84, 0.28);
     text-align: right;
 }
-
-.wallet {
-    font-size: 14px;
-    font-weight: 700;
-    color: #ffd47a;
-}
+.wallet { font-size: 14px; font-weight: 700; color: #ffd47a; }
 </style>

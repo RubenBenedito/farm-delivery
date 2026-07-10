@@ -21,7 +21,7 @@ const flashTimers = new Map();
 function flash(id) {
     lastDelivered.value = id;
 
-    // Limpa timer anterior deste mesmo id
+    // Limpa timer
     if (flashTimers.has(id)) {
         clearTimeout(flashTimers.get(id));
     }
@@ -68,11 +68,11 @@ watch(() => props.open, (isOpen) => {
     }
 });
 
-// Preço de venda dinâmico baseado no produto e na quantidade do pedido
+// Preço de venda
 function sellPriceOf(order) {
     if (typeof order?.pricePerUnit === 'number') return order.pricePerUnit;
     const id = order?.item;
-    const base = PRODUCTS[id]?.seedBasePrice ?? 1;
+    const base = PRODUCTS[id]?.buyPrice ?? 2;
     const [minR, maxR] = PRODUCTS[id]?.sellRange ?? [base * 2, base * 2 + 2];
     return Math.max(minR, Math.min(maxR, base + 2));
 }
