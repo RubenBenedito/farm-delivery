@@ -52,5 +52,8 @@ export default class LoadingScene extends Phaser.Scene {
             frameWidth: PLAYER_CONFIG.FRAME_WIDTH,
             frameHeight: PLAYER_CONFIG.FRAME_HEIGHT
         });
+
+        // Som do movimento
+        this.load.audio('effect-step', 'sound/effect.wav');
     }
 }
