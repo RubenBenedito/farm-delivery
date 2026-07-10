@@ -77,17 +77,16 @@ export function updateHUD(scene) {
     const TRANSITION_DURATION_SECONDS = 30;
     const MAX_NIGHT_ALPHA = 0.6;
 
-    const minutes = Math.floor(scene.gameTime / 60);
-    const seconds = Math.floor(scene.gameTime % 60);
+    // Tempo
+    const cycleTime = scene.gameTime % CYCLE_DURATION_SECONDS;
+    scene.currentDay = Math.floor(scene.gameTime / CYCLE_DURATION_SECONDS) + 1;
+    const minutes = Math.floor(cycleTime / 60);
+    const seconds = Math.floor(cycleTime % 60);
 
     scene.timeText.setText(
         `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
     );
-
-    scene.currentDay = Math.floor(scene.gameTime / CYCLE_DURATION_SECONDS) + 1;
     scene.dayText.setText(`DIA ${scene.currentDay}`);
-
-    const cycleTime = scene.gameTime % CYCLE_DURATION_SECONDS;
     let nightAlpha = 0;
 
     if (cycleTime < DAY_DURATION_SECONDS) {
