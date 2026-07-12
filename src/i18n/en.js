@@ -113,5 +113,21 @@ export default {
     description: "Spend your coins on improvements to your farm and fields.",
     close: "Close",
     buy: "Buy"
+  },
+
+  fieldMenu: {
+    title: "Field",
+    description: "Plant seeds, wait for them to grow, then harvest.",
+    close: "Close",
+    status: "Status:",
+    plant: "Plant Seeds",
+    harvest: "Harvest",
+    lockedAll: "No seeds unlocked yet — visit the Seed Shop.",
+    units: "units harvested",
+    states: {
+      empty: "Empty",
+      growing: "Growing",
+      ready: "Ready to harvest!"
+    }
   }
 };

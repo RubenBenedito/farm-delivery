@@ -110,5 +110,21 @@ export default {
     description: "Gasta o teu dinheiro em melhorias para a quinta e campos agrícolas.",
     close: "Fechar",
     buy: "Comprar"
+  },
+
+  fieldMenu: {
+    title: "Campo Agrícola",
+    description: "Planta sementes, espera que cresçam e depois colhe.",
+    close: "Fechar",
+    status: "Estado:",
+    plant: "Plantar Sementes",
+    harvest: "Colher",
+    lockedAll: "Nenhuma semente desbloqueada — visita a Loja de Sementes.",
+    units: "unidades colhidas",
+    states: {
+      empty: "Vazio",
+      growing: "A crescer",
+      ready: "Pronto a colher!"
+    }
   }
 };
