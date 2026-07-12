@@ -7,6 +7,7 @@ import BarnMenu from './components/BarnMenu.vue';
 import SeedShopMenu from './components/SeedShopMenu.vue';
 import StoneCabinMenu from './components/StoneCabinMenu.vue';
 import UpgradeShopMenu from './components/UpgradeShopMenu.vue';
+import FieldMenu from './components/FieldMenu.vue';
 import { LANGUAGES } from './i18n/index.js';
 
 const config = {
@@ -38,6 +39,8 @@ const MenuRoot = defineComponent({
         const seedShopOpen = ref(false);
         const cabinOpen = ref(false);
         const upgradeOpen = ref(false);
+        const fieldOpen = ref(false);
+        const activeFieldId = ref(null);
 
         const language = ref('pt');
         const text = computed(() => LANGUAGES[language.value] ?? LANGUAGES.pt);
@@ -67,6 +70,7 @@ const MenuRoot = defineComponent({
             seedShopOpen.value = false;
             cabinOpen.value = false;
             upgradeOpen.value = false;
+            fieldOpen.value = false;
             pauseOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -82,6 +86,7 @@ const MenuRoot = defineComponent({
             seedShopOpen.value = false;
             cabinOpen.value = false;
             upgradeOpen.value = false;
+            fieldOpen.value = false;
             barnOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -101,6 +106,7 @@ const MenuRoot = defineComponent({
             barnOpen.value = false;
             cabinOpen.value = false;
             upgradeOpen.value = false;
+            fieldOpen.value = false;
             seedShopOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -120,6 +126,7 @@ const MenuRoot = defineComponent({
             barnOpen.value = false;
             seedShopOpen.value = false;
             upgradeOpen.value = false;
+            fieldOpen.value = false;
             cabinOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -139,6 +146,7 @@ const MenuRoot = defineComponent({
             barnOpen.value = false;
             seedShopOpen.value = false;
             cabinOpen.value = false;
+            fieldOpen.value = false;
             upgradeOpen.value = true;
 
             const scene = game.scene.getScene('GameScene');
@@ -147,6 +155,27 @@ const MenuRoot = defineComponent({
 
         window.hideUpgradeShopMenu = () => {
             upgradeOpen.value = false;
+            const scene = game.scene.getScene('GameScene');
+            scene.resumeGame();
+        };
+
+
+        // Menu dos Campos (Plantar e Colher)
+        window.showFieldMenu = (fieldId) => {
+            pauseOpen.value = false;
+            barnOpen.value = false;
+            seedShopOpen.value = false;
+            cabinOpen.value = false;
+            upgradeOpen.value = false;
+            activeFieldId.value = fieldId;
+            fieldOpen.value = true;
+
+            const scene = game.scene.getScene('GameScene');
+            scene.pauseGame();
+        };
+
+        window.hideFieldMenu = () => {
+            fieldOpen.value = false;
             const scene = game.scene.getScene('GameScene');
             scene.resumeGame();
         };
@@ -193,6 +222,15 @@ const MenuRoot = defineComponent({
                       open: upgradeOpen.value,
                       text: text.value,
                       onClose: window.hideUpgradeShopMenu
+                  })
+                : null,
+
+            fieldOpen.value
+                ? h(FieldMenu, {
+                      open: fieldOpen.value,
+                      fieldId: activeFieldId.value,
+                      text: text.value,
+                      onClose: window.hideFieldMenu
                   })
                 : null
         ];

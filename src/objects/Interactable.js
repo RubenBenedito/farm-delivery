@@ -15,10 +15,26 @@ export class Interactable {
         this.keyF = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
         this.showPrompt = false;
+        this.enabled = true;
     }
 
-    
+    setEnabled(enabled) {
+        this.enabled = !!enabled;
+        if (!this.enabled && this.promptText) {
+            this.promptText.setVisible(false);
+            this.promptBg?.setVisible(false);
+        }
+    }
+
+
     update() {
+        if (!this.enabled) {
+            if (this.promptText) this.promptText.setVisible(false);
+            if (this.promptBg) this.promptBg.setVisible(false);
+            this.showPrompt = false;
+            return;
+        }
+
         this.showPrompt = Phaser.Geom.Intersects.RectangleToRectangle(
             this.scene.player.getBounds(),
             this.zone
@@ -67,9 +83,15 @@ export class Interactable {
             this.promptText.setVisible(false);
             this.promptBg.setVisible(false);
         }
+    }
 
-        if (this.showPrompt && Phaser.Input.Keyboard.JustDown(this.keyF)) {
+
+    handleKeyF() {
+        if (!this.enabled || !this.showPrompt) return false;
+        if (Phaser.Input.Keyboard.JustDown(this.keyF)) {
             this.onInteract();
+            return true;
         }
+        return false;
     }
 }

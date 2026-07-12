@@ -7,6 +7,8 @@ import { Barn } from '../objects/Barn.js';
 import { SeedShop } from '../objects/SeedShop.js';
 import { StoneCabin } from '../objects/StoneCabin.js';
 import { UpgradeShop } from '../objects/UpgradeShop.js';
+import { Field } from '../fields/Field.js';
+import { FIELDS } from '../fields/fields.js';
 import { PRODUCTS } from '../items/products.js';
 
 export default class GameScene extends Phaser.Scene {
@@ -89,6 +91,9 @@ export default class GameScene extends Phaser.Scene {
         // Loja de Upgrades
         this.upgradeShop = new UpgradeShop(this, 840, 568);
 
+        // Campos agrícolas
+        this.fields = Object.values(FIELDS).map(config => new Field(this, config));
+
         // Gerar pedidos automaticamente
         this.time.addEvent({
             delay: 8000,
@@ -135,6 +140,17 @@ export default class GameScene extends Phaser.Scene {
         this.seedShop.update();
         this.stoneCabin.update();
         this.upgradeShop.update();
+        for (const field of this.fields) field.update();
+
+        const interactables = [
+            this.barn.interaction,
+            this.seedShop.interaction,
+            this.stoneCabin.interaction,
+            this.upgradeShop.interaction
+        ];
+
+        interactables.some((i) => i.handleKeyF());
+
 
         if (!this.isPaused) {
             updatePlayerMovement(this, this.player);
