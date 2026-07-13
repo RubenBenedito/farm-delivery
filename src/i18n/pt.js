@@ -47,7 +47,7 @@ export default {
   },
 
   pause: {
-    resume: "Retomar",
+    resume: "Jogar / Retomar",
     saveDownload: "Guardar",
     upload: "Carregar",
     footnote: "Obrigado por jogar!"

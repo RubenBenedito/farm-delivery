@@ -49,7 +49,7 @@ export default {
   },
 
   pause: {
-    resume: "Resume",
+    resume: "Play / Resume",
     saveDownload: "Save",
     upload: "Upload",
     footnote: "Thanks for playing!"
