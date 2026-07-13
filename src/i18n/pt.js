@@ -19,7 +19,7 @@ export default {
       inventory: "Inventário",
       quests: "Missões",
       shortcuts: "Atalhos",
-      locations: "Entrar / Sair",
+      locations: "Entrar",
       menu: "Menu"
     },
 

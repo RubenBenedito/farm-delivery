@@ -21,7 +21,7 @@ export default {
       inventory: "Inventory",
       quests: "Quests",
       shortcuts: "Shortcuts",
-      locations: "Enter / Exit",
+      locations: "Enter",
       menu: "Menu"
     },
 
