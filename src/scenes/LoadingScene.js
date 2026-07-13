@@ -38,7 +38,6 @@ export default class LoadingScene extends Phaser.Scene {
             progressBar.fillRect(x, y, barWidth * value, barHeight);
         });
 
-
         this.load.on('complete', () => {
             this.time.delayedCall(500, () => {
                 this.scene.stop('LoadingScene');
@@ -47,7 +46,11 @@ export default class LoadingScene extends Phaser.Scene {
         });
 
 
-        this.load.image('mapImage', 'assets/juicetycoonmap.png');
+        // Colisão
+        this.load.tilemapTiledJSON('map', 'assets/juicetycoonmap.tmj');
+        this.load.image('juicetycoonmap', 'assets/juicetycoonmap.png');
+
+        // Player
         this.load.spritesheet('player', 'assets/player.png', {
             frameWidth: PLAYER_CONFIG.FRAME_WIDTH,
             frameHeight: PLAYER_CONFIG.FRAME_HEIGHT

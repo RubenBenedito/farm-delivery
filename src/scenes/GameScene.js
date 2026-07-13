@@ -46,26 +46,33 @@ export default class GameScene extends Phaser.Scene {
         this.unlockedItems = [];
         this.unlockedFields = [1, 2]; // field3, field4, field5 bloqueados
 
-        // Mapa
-        const map = this.add.image(0, 0, 'mapImage').setOrigin(0);
-        map.setDepth(-1);
 
-        const MAP_WIDTH = map.width;
-        const MAP_HEIGHT = map.height;
+        // Colisão
+        const map = this.make.tilemap({ key: 'map' });
+        const tileset = map.addTilesetImage('summer_outdoorsTileSheet', 'juicetycoonmap');
 
-        this.physics.world.setBounds(0, 0, MAP_WIDTH, MAP_HEIGHT);
+        this.add.image(0, 0, 'juicetycoonmap').setOrigin(0, 0).setDepth(-1);
+
+        const collisionLayer = map.createLayer('colision', tileset, 0, 0);
+        collisionLayer.setVisible(false);
+        collisionLayer.setCollisionByProperty({ collides: true });
+
+        this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         const spawn = { x: 625, y: 774 };
 
         createPlayerAnimations(this);
 
-        // Player
         this.player = this.physics.add.sprite(spawn.x, spawn.y, 'player', 0);
         this.player.setScale(PLAYER_CONFIG.SCALE);
         this.player.setCollideWorldBounds(true);
         this.player.direction = 'down';
 
-        this.cameras.main.setBounds(0, 0, MAP_WIDTH, MAP_HEIGHT);
+        // Colisão do player com o mapa
+        this.physics.add.collider(this.player, collisionLayer);
+
+        // Câmara
+        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
 
         this.keys = this.input.keyboard.addKeys({
@@ -77,24 +84,17 @@ export default class GameScene extends Phaser.Scene {
 
         this.keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-        createHUD(this, MAP_WIDTH, MAP_HEIGHT);
+        createHUD(this, map.widthInPixels, map.heightInPixels);
 
-        // Celeiro
         this.barn = new Barn(this, 500, 500);
-
-        // Loja de Sementes
         this.seedShop = new SeedShop(this, 1112, 696);
-
-        // Pedidos de Clientes
         this.stoneCabin = new StoneCabin(this, 791, 728);
-
-        // Loja de Upgrades
         this.upgradeShop = new UpgradeShop(this, 840, 568);
 
         // Campos agrícolas
         this.fields = Object.values(FIELDS).map(config => new Field(this, config));
 
-        // Gerar pedidos automaticamente
+        // Pedidos na loja automaticamente
         this.time.addEvent({
             delay: 8000,
             callback: () => this.generateOrder(),
@@ -106,7 +106,8 @@ export default class GameScene extends Phaser.Scene {
         const items = Object.keys(PRODUCTS).filter(
             (id) => !PRODUCTS[id]?.locked || (this.unlockedItems ?? []).includes(id)
         );
-        if (items.length === 0) return; // sem nada para oferecer, sai
+        if (items.length === 0) return;
+
         const item = items[Math.floor(Math.random() * items.length)];
         const quantity = Math.floor(Math.random() * 3) + 1;
 
@@ -150,7 +151,6 @@ export default class GameScene extends Phaser.Scene {
         ];
 
         interactables.some((i) => i.handleKeyF());
-
 
         if (!this.isPaused) {
             updatePlayerMovement(this, this.player);
