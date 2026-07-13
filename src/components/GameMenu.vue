@@ -55,6 +55,9 @@ function resumeGame() {
 						<button class="menu-chip" :class="{ 'is-active': language === 'en' }" @click="setLang('en')">
 							English
 						</button>
+						<button class="menu-chip" :class="{ 'is-active': language === 'fr' }" @click="setLang('fr')">
+							Français
+						</button>
 					</div>
 				</section>
                 
