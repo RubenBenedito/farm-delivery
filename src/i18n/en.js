@@ -27,11 +27,9 @@ export default {
 
     guide: {
       movement: "Use WASD to move.",
-      interaction: "Use F or E to interact.",
-      inventory: "Open inventory with G or 1–5.",
-      quests: "Check quests with F.",
-      shortcuts: "Useful shortcuts: M and Esc.",
-      locations: "Use F to enter and exit locations.",
+      interaction: "Use F and E to interact.",
+      shortcuts: "Useful shortcuts: F and Esc.",
+      locations: "Use F to enter locations.",
       menu: "Use ESC to open the menu again."
     },
 

@@ -25,10 +25,9 @@ export default {
 
     guide: {
       movement: "Usa WASD para mover.",
-      interaction: "Usa F ou E para interagir.",
-      quests: "Consulta as missões com F.",
-      shortcuts: "Atalhos úteis: M e Esc.",
-      locations: "Usa F para entrar e sair dos locais.",
+      interaction: "Usa F e E para interagir.",
+      shortcuts: "Atalhos úteis: F e Esc.",
+      locations: "Usa F para entrar nos locais.",
       menu: "Usa ESC para abrir o menu novamente."
     },
 
