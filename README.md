@@ -6,7 +6,7 @@ Farm Delivery é um jogo 2D feito em Phaser 3, Vue 3 e JavaScript. O objetivo pa
 
 ## 1. Identificação do aluno
 
-| Campo        | Valor                     |
+| Campo        |                      |
 | ------------ | ------------------------- |
 | **Nome**     | Rúben Oliveira Benedito   |
 | **Nº aluno** | 32184                     |
