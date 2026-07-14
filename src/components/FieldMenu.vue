@@ -196,12 +196,10 @@ function close() {
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 .field-overlay,
-.field-overlay * {
-    box-sizing: border-box;
-}
+.field-overlay * { box-sizing: border-box; }
 
 .field-overlay {
     position: fixed;
@@ -210,37 +208,32 @@ function close() {
     display: grid;
     place-items: center;
     padding: 16px;
-
     opacity: 0;
     visibility: hidden;
-    transition: opacity 160ms ease, visibility 160ms ease;
-
+    transition: opacity 220ms ease, visibility 220ms ease;
     background:
-        radial-gradient(circle at 18% 14%, rgba(95, 175, 80, 0.3), transparent 36%),
-        radial-gradient(circle at 84% 86%, rgba(214, 154, 55, 0.18), transparent 38%),
-        rgba(4, 8, 7, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    font-family: 'Outfit', sans-serif;
+        radial-gradient(ellipse at 50% 45%, rgba(232, 200, 130, 0.20), transparent 60%),
+        radial-gradient(circle at 10% 92%, rgba(58, 32, 12, 0.55), transparent 32%),
+        radial-gradient(circle at 92% 8%, rgba(58, 32, 12, 0.50), transparent 32%),
+        rgba(20, 12, 6, 0.55);
+    backdrop-filter: blur(6px) sepia(0.30);
+    -webkit-backdrop-filter: blur(6px) sepia(0.30);
+    font-family: 'Crimson Pro', 'Georgia', serif;
 }
 
-.field-overlay.is-open {
-    opacity: 1;
-    visibility: visible;
-}
+.field-overlay.is-open { opacity: 1; visibility: visible; }
 
 .field-frame {
     position: relative;
     width: min(720px, 100%);
     max-height: min(86vh, 640px);
     overflow: auto;
-
-    border-radius: 24px;
-    border: 1px solid rgba(157, 216, 126, 0.35);
-    background: linear-gradient(180deg, rgba(4, 18, 10, 0.98), rgba(2, 8, 6, 0.98));
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-
+    border-radius: 8px;
+    border: 1.5px dashed rgba(94, 60, 26, 0.55);
+    background: radial-gradient(ellipse at 22% 16%, #fdf6e1 0%, #f0e1b6 38%, #dcbf85 100%);
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.4),
+        inset 0 0 60px rgba(94, 60, 26, 0.12);
     padding: 28px 28px 22px;
     text-align: center;
 }
@@ -251,60 +244,83 @@ function close() {
     right: 14px;
     width: 38px;
     height: 38px;
-    border-radius: 12px;
-    border: 1px solid rgba(191, 144, 79, 0.45);
-    background: linear-gradient(180deg, rgba(21, 26, 40, 0.88), rgba(14, 18, 30, 0.92));
-    color: #eddcb7;
-    font-size: 26px;
+    border-radius: 6px;
+    border: 2px solid #6b4a2b;
+    background: rgba(255, 250, 230, 0.7);
+    color: #3a2818;
+    font-family: 'Crimson Pro', serif;
+    font-size: 24px;
     font-weight: 700;
     line-height: 1;
     display: grid;
     place-items: center;
     cursor: pointer;
-    transition: transform 120ms ease, filter 120ms ease, border-color 120ms ease;
+    transition: transform 180ms ease, background 180ms ease;
 }
-
+.field-close-x::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px dashed rgba(94, 60, 26, 0.4);
+    border-radius: 3px;
+    pointer-events: none;
+}
 .field-close-x:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.15);
-    border-color: rgba(157, 216, 126, 0.56);
-    color: #d8f4b0;
+    background: rgba(255, 250, 230, 0.95);
+    transform: rotate(-2deg);
+}
+.field-close-x:focus-visible {
+    outline: 2px solid #5a7a3a;
+    outline-offset: 2px;
 }
 
-.field-header {
-    margin-top: 6px;
-    margin-bottom: 16px;
-}
-
+.field-header { margin-top: 6px; margin-bottom: 16px; }
 .field-icon {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
     margin-bottom: 6px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    filter: sepia(0.3) saturate(1.2);
 }
-
 .field-header h1 {
     margin: 0;
-    font-family: 'Press Start 2P', monospace;
-    font-size: clamp(1.1rem, 2.6vw, 1.7rem);
-    color: #eddcb7;
-    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    color: #3a2818;
+    line-height: 1.05;
 }
-
 .field-header p {
-    margin: 10px 0 0;
-    color: rgba(228, 215, 191, 0.76);
-    font-size: 1rem;
+    margin: 6px 0 0;
+    font-family: 'Caveat', cursive;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: #6b4a2b;
+    font-style: italic;
 }
 
 .field-status {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(157, 216, 126, 0.22);
-    border-radius: 14px;
-    padding: 12px 14px;
+    position: relative;
+    background: rgba(255, 251, 235, 0.85);
+    border: 1.5px dashed rgba(94, 60, 26, 0.5);
+    border-radius: 8px;
+    padding: 14px 16px 12px;
     margin-bottom: 14px;
     display: grid;
     gap: 10px;
     text-align: left;
+}
+.field-status::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 40px;
+    height: 14px;
+    background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.20) 0, rgba(255, 255, 255, 0.20) 2px, transparent 2px, transparent 5px),
+        linear-gradient(180deg, #d9a64a 0%, #b8893a 100%);
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .status-row {
@@ -313,32 +329,34 @@ function close() {
     justify-content: space-between;
     gap: 10px;
 }
-
 .status-label {
-    color: rgba(228, 215, 191, 0.74);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    color: #6b4a2b;
+    font-size: 0.95rem;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
 }
 
 .status-pill {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.7rem;
-    padding: 6px 10px;
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding: 4px 12px;
     border-radius: 999px;
-    background: rgba(157, 216, 126, 0.15);
-    color: #d8f4b0;
-    border: 1px solid rgba(157, 216, 126, 0.5);
+    background: rgba(94, 60, 26, 0.10);
+    color: #3a2818;
+    border: 1.5px dashed rgba(94, 60, 26, 0.4);
 }
 .status-pill.is-growing {
-    background: rgba(214, 154, 55, 0.18);
-    color: #ffd47a;
-    border-color: rgba(214, 154, 55, 0.55);
+    background: rgba(217, 166, 74, 0.25);
+    color: #b8893a;
+    border-color: rgba(184, 137, 58, 0.6);
 }
 .status-pill.is-ready {
-    background: rgba(157, 216, 126, 0.3);
-    color: #f5ffd6;
-    border-color: rgba(157, 216, 126, 0.85);
+    background: rgba(202, 236, 159, 0.5);
+    color: #2e4a18;
+    border-color: rgba(90, 122, 58, 0.8);
     animation: pulse-ready 1.4s ease-in-out infinite;
 }
 @keyframes pulse-ready {
@@ -351,15 +369,18 @@ function close() {
     align-items: center;
     gap: 8px;
     padding: 6px 10px;
-    background: rgba(0, 0, 0, 0.32);
-    border: 1px solid rgba(157, 216, 126, 0.42);
+    background: rgba(94, 60, 26, 0.10);
+    border: 1.5px dashed rgba(94, 60, 26, 0.4);
     border-radius: 999px;
-    color: #eddcb7;
+    color: #3a2818;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    font-family: 'Caveat', cursive;
 }
 .seed-pill img {
-    width: 24px; height: 24px; image-rendering: pixelated;
+    width: 24px;
+    height: 24px;
+    image-rendering: pixelated;
 }
 .seed-fallback {
     font-size: 1.1rem;
@@ -367,74 +388,89 @@ function close() {
 
 .growth-bar {
     height: 8px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(214, 154, 55, 0.18);
+    background: rgba(94, 60, 26, 0.10);
+    border: 1.5px dashed rgba(94, 60, 26, 0.3);
     border-radius: 999px;
     overflow: hidden;
 }
 .growth-fill {
     height: 100%;
-    background: linear-gradient(90deg, rgba(214, 154, 55, 0.85), rgba(157, 216, 126, 0.95));
+    background: linear-gradient(90deg, rgba(217, 166, 74, 0.85), rgba(106, 142, 68, 0.95));
     transition: width 220ms ease;
 }
 
 .harvest-btn {
     cursor: pointer;
-    padding: 10px 22px;
-    border-radius: 12px;
-    border: 1px solid rgba(157, 216, 126, 0.85);
-    background: linear-gradient(135deg, rgba(98, 170, 69, 0.95), rgba(41, 90, 39, 0.95));
-    color: #f5ffd6;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.5px;
-    transition: filter 120ms ease, transform 120ms ease;
+    padding: 10px 24px;
+    border-radius: 6px;
+    border: 2px solid #5a1810;
+    background:
+        repeating-linear-gradient(45deg, rgba(255, 230, 200, 0.08) 0, rgba(255, 230, 200, 0.08) 4px, transparent 4px, transparent 8px),
+        linear-gradient(180deg, #c14a3e 0%, #9a3a2e 60%, #7c2a22 100%);
+    color: #f9edd1;
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow:
+        0 3px 0 rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: transform 180ms ease, filter 180ms ease;
     align-self: center;
 }
-.harvest-btn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.harvest-btn:hover {
+    transform: rotate(-1.5deg) translateY(-1px);
+    filter: brightness(1.06);
+}
 .harvest-btn:active { transform: translateY(0); }
 
 .harvest-coin {
     margin-left: 8px;
-    color: #ffd47a;
+    color: #d9a64a;
+    font-family: 'Crimson Pro', serif;
 }
 
-/* Section */
-.field-section {
-    margin-top: 6px;
-}
-
+.field-section { margin-top: 6px; }
 .section-title {
     margin: 0 0 10px;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.5px;
-    color: rgba(157, 216, 126, 0.92);
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #5a7a3a;
     text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.section-title::before {
+    content: '❀';
+    color: #b1493a;
+    font-size: 0.85em;
+    transform: rotate(-12deg);
+    display: inline-block;
 }
 
 .seed-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 12px;
 }
-
 @media (max-width: 640px) { .seed-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 420px) { .seed-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .seed-card {
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(201, 150, 84, 0.28);
-    border-radius: 12px;
-    padding: 10px;
+    background: rgba(255, 251, 235, 0.85);
+    border: 1.5px dashed rgba(94, 60, 26, 0.5);
+    border-radius: 6px;
+    padding: 12px 8px 10px;
     text-align: center;
-    transition: filter 120ms ease, transform 120ms ease, border-color 120ms ease;
+    transition: transform 180ms ease, border-color 180ms ease;
 }
 .seed-card:hover:not(:disabled) {
-    filter: brightness(1.10);
-    transform: translateY(-1px);
-    border-color: rgba(157, 216, 126, 0.55);
+    border-color: #5a7a3a;
+    transform: translateY(-1px) rotate(-0.5deg);
 }
 .seed-card:disabled {
     cursor: not-allowed;
@@ -442,31 +478,44 @@ function close() {
     filter: grayscale(0.4);
 }
 .seed-img {
-    width: 36px; height: 36px; image-rendering: pixelated; margin-bottom: 4px;
+    width: 36px;
+    height: 36px;
+    image-rendering: pixelated;
+    margin-bottom: 4px;
 }
 .seed-name {
     font-size: 12px;
     font-weight: 700;
-    color: #eddcb7;
+    color: #3a2818;
+    font-family: 'Crimson Pro', serif;
 }
 .seed-cost {
-    font-size: 10px;
-    color: rgba(228, 215, 191, 0.7);
+    font-size: 1.05rem;
+    color: #5a7a3a;
     margin-top: 4px;
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
 }
-.cost-x { color: #ffd47a; font-weight: 700; }
-.cost-have { color: rgba(157, 216, 126, 0.9); }
+.cost-x { color: #b1493a; }
+.cost-have {
+    color: #6b4a2b;
+    font-family: 'Crimson Pro', serif;
+    font-weight: 600;
+}
 
 .empty-msg {
     margin: 14px 0 0;
-    color: rgba(228, 215, 191, 0.7);
+    color: #6b4a2b;
     font-style: italic;
+    font-family: 'Crimson Pro', serif;
 }
 
 .harvest-flash {
     margin: 16px 0 0;
-    font-family: 'Press Start 2P', monospace;
-    color: #ffd47a;
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #b1493a;
     animation: flash-pop 1.2s ease;
 }
 @keyframes flash-pop {

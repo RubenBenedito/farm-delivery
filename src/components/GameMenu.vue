@@ -1,10 +1,10 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import Description from './Description.vue';
 import HowToPlay from './HowToPlay.vue';
 import Locations from './Locations.vue';
 
-defineProps({
+const props = defineProps({
 	open: Boolean,
 	language: String,
 	text: Object
@@ -17,83 +17,128 @@ function setLang(lang) {
 	emit('set-language', lang);
 }
 
+const localeMap = { pt: 'pt-PT', en: 'en-GB', fr: 'fr-FR' };
+const today = computed(() => {
+	const locale = localeMap[props.language] || 'pt-PT';
+	const d = new Date();
+	return d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+});
+
+const tabLabels = computed(() => ({
+	description: props.text.mainMenu.descriptionTab,
+	howto: props.text.mainMenu.guideTitle,
+	locations: props.text.mainMenu.locationsTitle
+}));
+
+const activeTabLabel = computed(() => tabLabels.value[tab.value]);
 
 function resumeGame() {
-    const game = window.game;
-    const scene = game.scene.getScene('GameScene');
-    const isPaused = scene?.scene?.isPaused?.('GameScene');
-    const isActive = scene?.scene?.isActive?.('GameScene');
+	const game = window.game;
+	const scene = game.scene.getScene('GameScene');
+	const isPaused = scene?.scene?.isPaused?.('GameScene');
+	const isActive = scene?.scene?.isActive?.('GameScene');
 
-    if (!scene || (!isPaused && !isActive)) {
-        if (scene) scene.isPaused = false;
-        game.scene.start('GameScene');
-    } else if (isPaused) {
-        scene.resumeGame();
-    } else {
-        scene.isPaused = false;
-    }
+	if (!scene || (!isPaused && !isActive)) {
+		if (scene) scene.isPaused = false;
+		game.scene.start('GameScene');
+	} else if (isPaused) {
+		scene.resumeGame();
+	} else {
+		scene.isPaused = false;
+	}
 
-    emit('close');
+	emit('close');
 }
-
 </script>
 
 
 <template>
 	<div class="menu-overlay" :class="{ 'is-open': open }">
 		<div class="menu-frame">
+
 			<aside class="menu-sidebar">
-				<div class="menu-vine"></div>
 
-				<section class="menu-language-panel">
-					<div class="menu-side-title">{{ text.mainMenu.language }}</div>
+				<header class="sidebar-header">
+					<div class="sidebar-title">
+						<span>Farm Delivery</span>
+					</div>
+				</header>
 
-					<div class="menu-language-buttons">
-						<button class="menu-chip" :class="{ 'is-active': language === 'pt' }" @click="setLang('pt')">
-							Português
+
+				<section class="language-panel">
+					<div class="panel-label">
+						<span class="panel-pin" aria-hidden="true"></span>
+						<span>{{ text.mainMenu.language }}</span>
+					</div>
+					<div class="language-buttons">
+						<button class="lang-btn" :class="{ 'is-active': language === 'pt' }" @click="setLang('pt')">
+							<span class="lang-mark">PT</span>
+							<span class="lang-name">Português</span>
 						</button>
-						<button class="menu-chip" :class="{ 'is-active': language === 'en' }" @click="setLang('en')">
-							English
+						<button class="lang-btn" :class="{ 'is-active': language === 'en' }" @click="setLang('en')">
+							<span class="lang-mark">EN</span>
+							<span class="lang-name">English</span>
 						</button>
-						<button class="menu-chip" :class="{ 'is-active': language === 'fr' }" @click="setLang('fr')">
-							Français
+						<button class="lang-btn" :class="{ 'is-active': language === 'fr' }" @click="setLang('fr')">
+							<span class="lang-mark">FR</span>
+							<span class="lang-name">Français</span>
 						</button>
 					</div>
 				</section>
-                
 
-				<div class="menu-actions">
-                    <button class="menu-btn is-primary" @click="resumeGame">
-                        {{ text.pause.resume }}
-                    </button>
-					<button class="menu-btn" @click="emit('restart')">
-						{{ text.mainMenu.restart }}
+				<div class="sidebar-actions">
+					<button class="stamp-btn is-primary" @click="resumeGame">
+						<span class="stars" aria-hidden="true">✦ ✦ ✦</span>
+						<span>{{ text.pause.resume }}</span>
+					</button>
+					<button class="stamp-btn" @click="emit('restart')">
+						<span class="arrow" aria-hidden="true">↺</span>
+						<span>{{ text.mainMenu.restart }}</span>
 					</button>
 				</div>
+
 			</aside>
 
+
 			<main class="menu-content">
-				<div class="menu-tabs">
-					<button class="menu-tab" :class="{ 'is-active': tab === 'description' }" @click="tab = 'description'">
-						{{ text.mainMenu.descriptionTab }}
-					</button>
-					<button class="menu-tab" :class="{ 'is-active': tab === 'howto' }" @click="tab = 'howto'">
-						{{ text.mainMenu.guideTitle }}
-					</button>
-					<button class="menu-tab" :class="{ 'is-active': tab === 'locations' }" @click="tab = 'locations'">
-						{{ text.mainMenu.locationsTitle }}
-					</button>
+
+				<div class="page-header">
+					<div class="page-date">{{ today }}</div>
+
+					<div class="menu-tabs" role="tablist">
+						<button class="menu-tab" :class="{ 'is-active': tab === 'description' }" @click="tab = 'description'">
+							<span class="tab-bullet" aria-hidden="true">❀</span>
+							{{ text.mainMenu.descriptionTab }}
+						</button>
+						<button class="menu-tab" :class="{ 'is-active': tab === 'howto' }" @click="tab = 'howto'">
+							<span class="tab-bullet" aria-hidden="true">✦</span>
+							{{ text.mainMenu.guideTitle }}
+						</button>
+						<button class="menu-tab" :class="{ 'is-active': tab === 'locations' }" @click="tab = 'locations'">
+							<span class="tab-bullet" aria-hidden="true">❖</span>
+							{{ text.mainMenu.locationsTitle }}
+						</button>
+					</div>
 				</div>
 
 				<header class="menu-header">
-					<h1>{{ text.mainMenu.title }}</h1>
-					<p class="menu-subtitle">{{ text.mainMenu.subtitle }}</p>
+					<h1 class="handwritten">{{ text.mainMenu.title }}</h1>
+					<p class="menu-subtitle">— {{ text.mainMenu.subtitle }} —</p>
+					<div class="ink-line"></div>
 				</header>
 
-				<Description v-if="tab === 'description'" :text="text" />
-				<HowToPlay v-else-if="tab === 'howto'" :text="text" />
-				<Locations v-else :text="text" />
+				<div class="content-scroll">
+					<Description v-if="tab === 'description'" :text="text" />
+					<HowToPlay v-else-if="tab === 'howto'" :text="text" />
+					<Locations v-else :text="text" />
+				</div>
+
 			</main>
+
+			<!-- Washi tape decoration peeking out top -->
+			<div class="washi-tape washi-tape--left" aria-hidden="true"></div>
+			<div class="washi-tape washi-tape--right" aria-hidden="true"></div>
+
 		</div>
 	</div>
 </template>
@@ -101,12 +146,10 @@ function resumeGame() {
 
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 .menu-overlay,
-.menu-overlay * {
-	box-sizing: border-box;
-}
+.menu-overlay * { box-sizing: border-box; }
 
 .menu-overlay {
 	position: fixed;
@@ -116,14 +159,15 @@ function resumeGame() {
 	place-items: center;
 	opacity: 0;
 	visibility: hidden;
-	transition: opacity 160ms ease, visibility 160ms ease;
+	transition: opacity 260ms ease, visibility 260ms ease;
 	background:
-		radial-gradient(circle at 16% 16%, rgba(66, 131, 81, 0.3), transparent 34%),
-		radial-gradient(circle at 86% 82%, rgba(214, 154, 55, 0.18), transparent 36%),
-		rgba(4, 8, 7, 0.72);
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
-	font-family: 'Outfit', sans-serif;
+		radial-gradient(ellipse at 50% 45%, rgba(232, 200, 130, 0.20), transparent 60%),
+		radial-gradient(circle at 10% 92%, rgba(58, 32, 12, 0.55), transparent 32%),
+		radial-gradient(circle at 92% 8%, rgba(58, 32, 12, 0.50), transparent 32%),
+		rgba(20, 12, 6, 0.62);
+	backdrop-filter: blur(6px) sepia(0.35);
+	-webkit-backdrop-filter: blur(6px) sepia(0.35);
+	font-family: 'Crimson Pro', 'Georgia', serif;
 	padding: 16px;
 }
 
@@ -133,163 +177,443 @@ function resumeGame() {
 }
 
 .menu-frame {
-	width: min(1000px, 100%);
-	height: min(92vh, 760px);
-	border-radius: 24px;
-	border: 1px solid rgba(201, 150, 84, 0.35);
-	background: linear-gradient(180deg, rgba(4, 8, 26, 0.98), rgba(2, 6, 18, 0.98));
-	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+	position: relative;
+	width: min(1040px, 100%);
+	height: min(92vh, 780px);
+	border-radius: 6px 26px 26px 6px;
+	background:
+		repeating-linear-gradient(
+			to bottom,
+			transparent 0,
+			transparent 27px,
+			rgba(143, 98, 49, 0.16) 27px,
+			rgba(143, 98, 49, 0.16) 28px
+		),
+		radial-gradient(ellipse at 22% 16%, #fdf6e1 0%, #f0e1b6 38%, #dcbf85 100%);
+	box-shadow:
+		0 30px 80px rgba(0, 0, 0, 0.5),
+		0 0 0 1px rgba(58, 32, 12, 0.4),
+		inset 0 0 80px rgba(94, 60, 26, 0.20);
 	display: grid;
-	grid-template-columns: 320px minmax(0, 1fr);
+	grid-template-columns: 280px minmax(0, 1fr);
 	overflow: hidden;
+	animation: diaryOpen 380ms cubic-bezier(0.2, 0.85, 0.25, 1) both;
+	transform-origin: center center;
 }
 
+@keyframes diaryOpen {
+	from {
+		opacity: 0;
+		transform: scale(0.94) translateY(10px) rotateY(3deg);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) translateY(0) rotateY(0);
+	}
+}
+
+
+/* Barra da Esquerda */
 .menu-sidebar {
-	border-right: 1px solid rgba(201, 150, 84, 0.2);
-	padding: 26px;
+	position: relative;
+	padding: 24px 22px;
+	border-right: 2px solid rgba(94, 60, 26, 0.55);
 	display: grid;
 	align-content: start;
 	gap: 18px;
+	background: rgba(253, 246, 225, 0.18);
 }
 
-.menu-vine {
-	height: 5px;
-	border-radius: 999px;
-	background: linear-gradient(90deg, transparent 0%, rgba(174, 211, 120, 0.45) 45%, transparent 100%);
-}
-
-.menu-compass {
-	width: 72px;
-	height: 72px;
-	margin: 2px auto 8px;
-	border-radius: 50%;
-	display: grid;
-	place-items: center;
-	font-family: 'Press Start 2P', monospace;
-	font-size: 1rem;
-	color: #40250f;
-	background: radial-gradient(circle at 30% 30%, #f8edd5, #d8b480 68%, #966844 100%);
-	border: 2px solid rgba(93, 62, 33, 0.45);
-}
-
-.menu-language-panel {
-	border-radius: 16px;
-	padding: 14px;
-	background: rgba(255, 255, 255, 0.03);
-	border: 1px solid rgba(201, 150, 84, 0.28);
-}
-
-.menu-side-title {
-	text-transform: uppercase;
-	letter-spacing: 0.14em;
-	color: rgba(222, 202, 165, 0.7);
+.sidebar-header {
 	text-align: center;
+}
+
+.sidebar-title {
+	display: inline-flex;
+	flex-direction: column;
+	display: flex;
+	flex-direction: column;
+	line-height: 0.92;
+	font-family: 'Caveat', cursive;
 	font-weight: 700;
+	color: #3a2818;
+	transform: rotate(-2deg);
+}
+
+.sidebar-title span:first-child {
+	font-size: 2.2rem;
+	color: #6b4a2b;
+}
+
+.title-second {
+	font-size: 2.5rem !important;
+	color: #3a2818 !important;
+	margin-left: 4px;
+}
+
+.sidebar-divider {
+	text-align: center;
+	color: #b1493a;
+	font-size: 0.9rem;
+	letter-spacing: 0.3em;
+	opacity: 0.75;
+	font-family: 'Crimson Pro', serif;
+}
+
+.language-panel {
+	border: 1.5px dashed rgba(94, 60, 26, 0.55);
+	border-radius: 6px;
+	padding: 12px 12px 14px;
+	background: rgba(255, 250, 230, 0.35);
+}
+
+.panel-label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-family: 'Caveat', cursive;
+	font-weight: 700;
+	font-size: 1.35rem;
+	color: #3a2818;
 	margin-bottom: 10px;
 }
 
-.menu-language-buttons,
-.menu-actions {
+.panel-pin {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: radial-gradient(circle at 30% 30%, #d35d4f, #8c2820 70%, #5a1612 100%);
+	box-shadow:
+		0 0 0 1.5px rgba(58, 16, 12, 0.6),
+		inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+.language-buttons {
 	display: grid;
+	gap: 6px;
+}
+
+.lang-btn {
+	display: flex;
+	align-items: center;
 	gap: 10px;
-}
-
-.menu-chip,
-.menu-btn,
-.menu-tab {
-	border-radius: 14px;
-	border: 1px solid rgba(191, 144, 79, 0.35);
-	min-height: 46px;
-	font-weight: 800;
-	letter-spacing: 0.02em;
+	padding: 6px 10px;
+	background: transparent;
+	border: 1px solid rgba(94, 60, 26, 0.4);
+	border-radius: 4px;
+	font-family: 'Caveat', cursive;
+	font-weight: 600;
+	font-size: 1.2rem;
+	color: #3a2818;
 	cursor: pointer;
-	transition: transform 120ms ease, filter 120ms ease, border-color 120ms ease;
+	transition: all 180ms ease;
+	text-align: left;
 }
 
-.menu-chip {
-	background: linear-gradient(180deg, rgba(23, 28, 45, 0.9), rgba(18, 22, 34, 0.9));
-	color: #dbcfb5;
+.lang-btn:hover {
+	background: rgba(255, 250, 230, 0.55);
+	transform: translateX(3px);
 }
 
-.menu-chip.is-active {
-	background: linear-gradient(135deg, rgba(71, 122, 52, 0.85), rgba(35, 68, 36, 0.9));
-	color: #caec9f;
-	border-color: rgba(157, 216, 126, 0.56);
+.lang-btn:hover .lang-mark {
+	transform: rotate(-4deg);
 }
 
-.menu-btn {
-	background: linear-gradient(180deg, rgba(21, 26, 40, 0.88), rgba(14, 18, 30, 0.92));
-	color: #cfc3aa;
+.lang-btn.is-active {
+	background: rgba(122, 154, 78, 0.22);
+	border-color: #5a7a3a;
+	border-style: solid;
+	color: #2e4a18;
 }
 
-.menu-btn.is-primary {
-	background: linear-gradient(135deg, rgba(98, 150, 69, 0.85), rgba(41, 78, 39, 0.9));
-	border-color: rgba(157, 216, 126, 0.56);
-	color: #d8f4b0;
+.lang-btn.is-active .lang-mark {
+	background: #5a7a3a;
+	color: #f6efd9;
+	border-color: #2e4a18;
+	transform: rotate(-3deg);
 }
 
-.menu-btn.is-muted {
-	opacity: 0.9;
+.lang-mark {
+	font-family: 'Crimson Pro', serif;
+	font-weight: 700;
+	font-size: 0.85rem;
+	padding: 2px 6px;
+	border: 1px solid #3a2818;
+	border-radius: 3px;
+	letter-spacing: 0.04em;
+	background: rgba(255, 250, 230, 0.75);
+	transition: transform 180ms ease;
+	min-width: 26px;
+	text-align: center;
 }
 
-.menu-chip:hover,
-.menu-btn:hover,
-.menu-tab:hover {
-	transform: translateY(-1px);
+.lang-name {
+	font-family: 'Caveat', cursive;
+	flex: 1;
+}
+
+.sidebar-actions {
+	display: grid;
+	gap: 12px;
+	margin-top: 4px;
+}
+
+.stamp-btn {
+	position: relative;
+	font-family: 'Caveat', cursive;
+	font-weight: 700;
+	font-size: 1.4rem;
+	padding: 10px 14px;
+	background: rgba(255, 250, 230, 0.55);
+	color: #3a2818;
+	border: 2px solid #6b4a2b;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: transform 180ms ease, background 180ms ease;
+	text-align: center;
+	letter-spacing: 0.04em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+}
+
+.stamp-btn::before {
+	content: '';
+	position: absolute;
+	inset: 4px;
+	border: 1px dashed rgba(94, 60, 26, 0.45);
+	border-radius: 2px;
+	pointer-events: none;
+}
+
+.stamp-btn:hover {
+	background: rgba(255, 250, 230, 0.85);
+	transform: rotate(-1.2deg) translateY(-1px);
+}
+
+.stamp-btn:hover::before { border-color: rgba(193, 74, 62, 0.6); }
+
+.stamp-btn:active {
+	transform: rotate(-0.5deg) translateY(0) scale(0.98);
+}
+
+.stamp-btn.is-primary {
+	background:
+		repeating-linear-gradient(45deg, rgba(255, 230, 200, 0.08) 0, rgba(255, 230, 200, 0.08) 6px, transparent 6px, transparent 12px),
+		linear-gradient(180deg, #c14a3e 0%, #9a3a2e 60%, #7c2a22 100%);
+	color: #f9edd1;
+	border-color: #5a1810;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+	letter-spacing: 0.08em;
+	box-shadow:
+		0 3px 0 rgba(0, 0, 0, 0.3),
+		inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.stamp-btn.is-primary::before { border-color: rgba(249, 237, 209, 0.45); }
+
+.stamp-btn.is-primary:hover {
+	transform: rotate(-1.5deg) translateY(-2px);
 	filter: brightness(1.06);
 }
 
+.stamp-btn .stars {
+	font-size: 0.65em;
+	opacity: 0.95;
+	margin-bottom: 1px;
+	letter-spacing: 0.2em;
+}
+
+.stamp-btn .arrow {
+	font-size: 0.85em;
+	margin-bottom: 1px;
+	color: #b1493a;
+	font-family: 'Crimson Pro', serif;
+}
+
+.stamp-btn.is-primary .arrow { color: #f9edd1; }
+
+
+/* Menu lado direito */
 .menu-content {
-	padding: 22px 28px;
-	overflow: auto;
+	position: relative;
+	display: grid;
+	grid-template-rows: auto auto 1fr;
+	padding: 22px 36px 20px;
+	overflow: hidden;
+}
+
+.menu-content::before {
+	content: '';
+	position: absolute;
+	left: 56px;
+	top: 86px;
+	bottom: 16px;
+	width: 1.5px;
+	background: rgba(193, 74, 62, 0.55);
+	pointer-events: none;
+	z-index: 0;
+}
+
+.page-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 6px;
+}
+
+.page-date {
+	font-family: 'Caveat', cursive;
+	font-weight: 600;
+	font-size: 1.15rem;
+	color: #b1493a;
+	transform: rotate(-3deg);
+	white-space: nowrap;
+	opacity: 0.85;
 }
 
 .menu-tabs {
 	display: flex;
-	gap: 8px;
-	border-bottom: 1px solid rgba(201, 150, 84, 0.25);
-	padding-bottom: 0;
+	gap: 4px;
+	margin-right: -2px;
 }
 
 .menu-tab {
+	position: relative;
+	font-family: 'Caveat', cursive;
+	font-weight: 700;
+	font-size: 1.25rem;
+	padding: 6px 16px 8px;
+	background: rgba(232, 207, 158, 0.55);
+	color: #6b4a2b;
+	border: 1.5px solid rgba(94, 60, 26, 0.5);
+	border-bottom: none;
 	border-radius: 12px 12px 0 0;
-	min-width: 150px;
-	background: linear-gradient(180deg, rgba(71, 45, 28, 0.85), rgba(50, 32, 20, 0.9));
-	color: #ead6b0;
-	border-bottom: 0;
+	cursor: pointer;
+	transition: all 200ms ease;
+	display: flex;
+	align-items: center;
+	gap: 6px;
 }
 
+.menu-tab .tab-bullet {
+	font-size: 0.85em;
+	color: #b1493a;
+	opacity: 0.8;
+	transform: rotate(-8deg);
+	transition: transform 220ms ease;
+}
+
+.menu-tab:hover {
+	background: rgba(255, 247, 220, 0.85);
+	color: #3a2818;
+	transform: translateY(-1px);
+}
+
+.menu-tab:hover .tab-bullet { transform: rotate(15deg); }
+
 .menu-tab.is-active {
-	background: linear-gradient(180deg, rgba(124, 80, 45, 0.9), rgba(78, 52, 31, 0.95));
+	background: #fdf6e1;
+	color: #3a2818;
+	border-color: #6b4a2b;
+	z-index: 2;
+	transform: translateY(-2px);
+}
+
+.menu-tab.is-active::after {
+	content: '';
+	position: absolute;
+	bottom: -2.5px;
+	left: 0;
+	right: 0;
+	height: 4px;
+	background: #fdf6e1;
+}
+
+.menu-tab.is-active .tab-bullet {
+	color: #b1493a;
+	transform: rotate(0deg);
+	opacity: 1;
 }
 
 .menu-header {
 	text-align: center;
-	padding: 16px 8px 20px;
+	padding: 4px 8px 12px;
 }
 
-.menu-header h1 {
+.handwritten {
 	margin: 0;
-	font-family: 'Press Start 2P', monospace;
-	font-size: clamp(1.3rem, 3.5vw, 2.2rem);
-	color: #eddcb7;
+	font-family: 'Caveat', cursive;
+	font-weight: 700;
+	font-size: clamp(2.2rem, 5.2vw, 3.6rem);
+	color: #3a2818;
+	line-height: 1;
+	letter-spacing: 0.005em;
 }
 
 .menu-subtitle {
-	margin: 10px 0 0;
-	color: rgba(228, 215, 191, 0.76);
-	font-size: 1.02rem;
+	margin: 2px 0 0;
+	font-family: 'Caveat', cursive;
+	font-weight: 600;
+	font-size: 1.35rem;
+	color: #6b4a2b;
+}
+
+.ink-line {
+	margin: 8px auto 0;
+	height: 2.5px;
+	width: 70%;
+	background: linear-gradient(to right, transparent, #3a2818 20%, #3a2818 80%, transparent);
+	border-radius: 2px;
+}
+
+.content-scroll {
+	overflow: auto;
+	padding: 8px 8px 12px 16px;
+}
+
+.washi-tape {
+	position: absolute;
+	top: -10px;
+	width: 130px;
+	height: 26px;
+	border-radius: 2px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.18);
+	z-index: 3;
+	pointer-events: none;
+}
+
+.washi-tape--left {
+	left: 80px;
+	background:
+		repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.18) 0, rgba(255, 255, 255, 0.18) 4px, transparent 4px, transparent 8px),
+		linear-gradient(180deg, #d9a64a 0%, #b8893a 100%);
+	transform: rotate(-4deg);
+}
+
+.washi-tape--right {
+	right: 110px;
+	background:
+		repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.18) 0, rgba(255, 255, 255, 0.18) 4px, transparent 4px, transparent 8px),
+		linear-gradient(180deg, #6a8e44 0%, #4a6c2a 100%);
+	transform: rotate(5deg);
 }
 
 @media (max-width: 980px) {
 	.menu-frame {
 		grid-template-columns: 1fr;
-		height: min(94vh, 860px);
+		height: min(94vh, 880px);
+		border-radius: 6px 6px 26px 26px;
 	}
-
 	.menu-sidebar {
 		border-right: 0;
-		border-bottom: 1px solid rgba(201, 150, 84, 0.25);
+		border-bottom: 2px solid rgba(94, 60, 26, 0.55);
 	}
+	.menu-content { padding: 18px 22px 14px; }
+	.menu-content::before { display: none; }
+	.washi-tape--left { left: 16px; }
+	.washi-tape--right { right: 22px; }
 }
 </style>

@@ -127,7 +127,6 @@ function safeWidth(order) {
             <button class="cabin-close-x" @click="close" :aria-label="t.close">×</button>
 
             <header class="cabin-header">
-                <div class="cabin-icon" aria-hidden="true">🏪</div>
                 <h1>{{ t.title }}</h1>
                 <p>{{ t.description }}</p>
             </header>
@@ -139,8 +138,6 @@ function safeWidth(order) {
             </section>
 
             <section v-else class="cabin-list">
-                <h2 class="section-title">{{ sectionT.harvest }}</h2>
-
                 <div
                     v-for="order in orders"
                     :key="order.id"
@@ -198,14 +195,11 @@ function safeWidth(order) {
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 .cabin-overlay,
-.cabin-overlay * {
-    box-sizing: border-box;
-}
+.cabin-overlay * { box-sizing: border-box; }
 
-/* Fundo */
 .cabin-overlay {
     position: fixed;
     inset: 0;
@@ -213,51 +207,34 @@ function safeWidth(order) {
     display: grid;
     place-items: center;
     padding: 16px;
-
     opacity: 0;
     visibility: hidden;
-    transition: opacity 160ms ease, visibility 160ms ease;
-
+    transition: opacity 220ms ease, visibility 220ms ease;
     background:
-        radial-gradient(circle at 22% 12%, rgba(214, 154, 55, 0.28), transparent 36%),
-        radial-gradient(circle at 82% 88%, rgba(66, 131, 81, 0.24), transparent 38%),
-        rgba(4, 8, 7, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    font-family: 'Outfit', sans-serif;
+        radial-gradient(ellipse at 50% 45%, rgba(232, 200, 130, 0.20), transparent 60%),
+        radial-gradient(circle at 10% 92%, rgba(58, 32, 12, 0.55), transparent 32%),
+        radial-gradient(circle at 92% 8%, rgba(58, 32, 12, 0.50), transparent 32%),
+        rgba(20, 12, 6, 0.55);
+    backdrop-filter: blur(6px) sepia(0.30);
+    -webkit-backdrop-filter: blur(6px) sepia(0.30);
+    font-family: 'Crimson Pro', 'Georgia', serif;
 }
 
-.cabin-overlay.is-open {
-    opacity: 1;
-    visibility: visible;
-}
+.cabin-overlay.is-open { opacity: 1; visibility: visible; }
 
-/* Frame */
 .cabin-frame {
     position: relative;
     width: min(720px, 100%);
     max-height: min(86vh, 640px);
     overflow: auto;
-
-    border-radius: 24px;
-    border: 1px solid rgba(201, 150, 84, 0.35);
-    background: linear-gradient(180deg, rgba(4, 8, 26, 0.98), rgba(2, 6, 18, 0.98));
+    border-radius: 8px;
+    border: 1.5px dashed rgba(94, 60, 26, 0.55);
+    background: radial-gradient(ellipse at 22% 16%, #fdf6e1 0%, #f0e1b6 38%, #dcbf85 100%);
     box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.55),
-        inset 0 1px 0 rgba(255, 213, 119, 0.08);
-
+        0 30px 80px rgba(0, 0, 0, 0.4),
+        inset 0 0 60px rgba(94, 60, 26, 0.12);
     padding: 28px 28px 22px;
     text-align: center;
-
-    transform: translateY(8px) scale(0.98);
-    opacity: 0;
-    transition: transform 220ms ease, opacity 220ms ease;
-}
-
-.cabin-overlay.is-open .cabin-frame {
-    transform: translateY(0) scale(1);
-    opacity: 1;
 }
 
 .cabin-close-x {
@@ -266,55 +243,63 @@ function safeWidth(order) {
     right: 14px;
     width: 38px;
     height: 38px;
-    border-radius: 12px;
-    border: 1px solid rgba(191, 144, 79, 0.45);
-    background: linear-gradient(180deg, rgba(21, 26, 40, 0.88), rgba(14, 18, 30, 0.92));
-    color: #eddcb7;
-    font-size: 26px;
+    border-radius: 6px;
+    border: 2px solid #6b4a2b;
+    background: rgba(255, 250, 230, 0.7);
+    color: #3a2818;
+    font-family: 'Crimson Pro', serif;
+    font-size: 24px;
     font-weight: 700;
     line-height: 1;
     display: grid;
     place-items: center;
     cursor: pointer;
-    transition: transform 120ms ease, filter 120ms ease, border-color 120ms ease;
+    transition: transform 180ms ease, background 180ms ease;
     z-index: 2;
 }
 
+.cabin-close-x::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 1px dashed rgba(94, 60, 26, 0.4);
+    border-radius: 3px;
+    pointer-events: none;
+}
+
 .cabin-close-x:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.15);
-    border-color: rgba(157, 216, 126, 0.56);
-    color: #d8f4b0;
+    background: rgba(255, 250, 230, 0.95);
+    transform: rotate(-2deg);
 }
 
 .cabin-close-x:focus-visible {
-    outline: 2px solid rgba(157, 216, 126, 0.7);
+    outline: 2px solid #5a7a3a;
     outline-offset: 2px;
 }
 
-.cabin-header {
-    margin-top: 6px;
-    margin-bottom: 16px;
-}
-
+.cabin-header { margin-top: 6px; margin-bottom: 16px; }
 .cabin-icon {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     margin-bottom: 6px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    filter: sepia(0.3) saturate(1.2);
 }
 
 .cabin-header h1 {
     margin: 0;
-    font-family: 'Press Start 2P', monospace;
-    font-size: clamp(1.05rem, 2.5vw, 1.6rem);
-    color: #eddcb7;
-    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    color: #3a2818;
+    line-height: 1.05;
 }
 
 .cabin-header p {
-    margin: 10px 0 0;
-    color: rgba(228, 215, 191, 0.76);
-    font-size: 1rem;
+    margin: 6px 0 0;
+    font-family: 'Caveat', cursive;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: #6b4a2b;
+    font-style: italic;
 }
 
 .cabin-empty {
@@ -324,62 +309,89 @@ function safeWidth(order) {
 .empty-emoji {
     font-size: 2.4rem;
     margin-bottom: 10px;
+    filter: sepia(0.3) saturate(1.2);
 }
 
 .empty-title {
     margin: 0;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.95rem;
-    color: rgba(157, 216, 126, 0.92);
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: #5a7a3a;
 }
 
 .empty-sub {
     margin: 8px 0 0;
-    color: rgba(228, 215, 191, 0.7);
-    font-size: 0.95rem;
+    color: #6b4a2b;
+    font-size: 1rem;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
 }
 
-/* Lista de pedidos */
 .cabin-list {
     margin-top: 4px;
     display: grid;
-    gap: 10px;
+    gap: 12px;
 }
 
 .section-title {
     margin: 6px 0 6px;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.5px;
-    color: rgba(157, 216, 126, 0.92);
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #5a7a3a;
     text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-/* Cartão de pedido */
+.section-title::before {
+    content: '❀';
+    color: #b1493a;
+    font-size: 0.85em;
+    transform: rotate(-12deg);
+    display: inline-block;
+}
+
 .order-card {
+    position: relative;
     display: grid;
     grid-template-columns: 56px 1fr auto;
     gap: 12px;
     align-items: center;
+    background: rgba(255, 251, 235, 0.85);
+    border: 1.5px dashed rgba(94, 60, 26, 0.5);
+    border-radius: 8px;
+    padding: 14px 16px 12px;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
 
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(201, 150, 84, 0.28);
-    border-radius: 14px;
-    padding: 10px 12px;
-
-    transition: border-color 140ms ease, transform 140ms ease, background 140ms ease;
+.order-card::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 20px;
+    transform: rotate(-4deg);
+    width: 40px;
+    height: 14px;
+    background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.20) 0, rgba(255, 255, 255, 0.20) 2px, transparent 2px, transparent 5px),
+        linear-gradient(180deg, #d9a64a 0%, #b8893a 100%);
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .order-card:hover {
-    border-color: rgba(157, 216, 126, 0.45);
-    background: rgba(255, 255, 255, 0.08);
+    border-color: #5a7a3a;
+    background: rgba(255, 251, 235, 0.95);
     transform: translateY(-1px);
 }
 
 .order-card.is-done {
     opacity: 0.55;
-    border-color: rgba(157, 216, 126, 0.32);
-    background: rgba(157, 216, 126, 0.07);
+    border-color: rgba(90, 122, 58, 0.6);
+    background: rgba(202, 236, 159, 0.25);
 }
 
 .order-card.is-flash {
@@ -387,26 +399,20 @@ function safeWidth(order) {
 }
 
 @keyframes order-flash {
-    0%, 100% {
-        box-shadow: 0 0 0 rgba(157, 216, 126, 0);
-    }
+    0%, 100% { box-shadow: 0 0 0 rgba(90, 122, 58, 0); }
     25% {
-        box-shadow: 0 0 0 6px rgba(157, 216, 126, 0.35);
-        border-color: rgba(157, 216, 126, 0.85);
+        box-shadow: 0 0 0 6px rgba(90, 122, 58, 0.35);
+        border-color: rgba(90, 122, 58, 0.85);
     }
-    75% {
-        box-shadow: 0 0 0 12px rgba(157, 216, 126, 0);
-    }
+    75% { box-shadow: 0 0 0 12px rgba(90, 122, 58, 0); }
 }
 
 .order-icon {
     width: 48px;
     height: 48px;
-    border-radius: 10px;
-    background:
-        radial-gradient(circle at 30% 30%, rgba(214, 154, 55, 0.22), transparent 60%),
-        rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(201, 150, 84, 0.28);
+    border-radius: 6px;
+    background: rgba(94, 60, 26, 0.10);
+    border: 1.5px dashed rgba(94, 60, 26, 0.4);
     display: grid;
     place-items: center;
 }
@@ -429,37 +435,39 @@ function safeWidth(order) {
 }
 
 .order-line {
-    font-size: 0.95rem;
-    color: rgba(228, 215, 191, 0.92);
+    font-size: 0.98rem;
+    color: #3a2818;
     line-height: 1.25;
     display: inline-flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 4px;
+    font-family: 'Crimson Pro', serif;
 }
 
 .order-label {
-    color: rgba(228, 215, 191, 0.72);
+    color: #6b4a2b;
+    font-style: italic;
 }
 
 .order-qty {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 1.05rem;
-    color: #eddcb7;
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #b1493a;
     margin-right: 2px;
 }
 
 .order-of {
-    color: rgba(228, 215, 191, 0.45);
+    color: rgba(94, 60, 26, 0.5);
     margin: 0 4px 0 2px;
 }
 
 .order-name {
-    color: #eddcb7;
+    color: #3a2818;
     font-weight: 700;
 }
 
-/* Stock bar */
 .order-stock {
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -469,13 +477,14 @@ function safeWidth(order) {
 }
 
 .stock-label {
-    color: rgba(228, 215, 191, 0.7);
+    color: #6b4a2b;
+    font-family: 'Crimson Pro', serif;
 }
 
 .stock-bar {
     height: 8px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(201, 150, 84, 0.18);
+    background: rgba(94, 60, 26, 0.10);
+    border: 1.5px dashed rgba(94, 60, 26, 0.3);
     border-radius: 999px;
     overflow: hidden;
     position: relative;
@@ -483,72 +492,68 @@ function safeWidth(order) {
 
 .stock-fill {
     height: 100%;
-    background: linear-gradient(90deg, rgba(157, 216, 126, 0.8), rgba(157, 216, 126, 0.95));
+    background: linear-gradient(90deg, rgba(90, 122, 58, 0.85), rgba(106, 142, 68, 0.95));
     transition: width 220ms ease, background 220ms ease;
 }
 
 .stock-fill.is-low {
-    background: linear-gradient(90deg, rgba(214, 154, 55, 0.7), rgba(214, 154, 55, 0.95));
+    background: linear-gradient(90deg, rgba(217, 166, 74, 0.8), rgba(184, 137, 58, 0.95));
 }
 
 .stock-count {
     font-weight: 700;
-    color: rgba(157, 216, 126, 0.92);
+    color: #5a7a3a;
     font-variant-numeric: tabular-nums;
+    font-family: 'Crimson Pro', serif;
 }
 
 .stock-count.is-low {
-    color: rgba(214, 154, 55, 0.95);
+    color: #b8893a;
 }
 
-/* Botão entregar */
 .deliver-btn {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 2px;
-
     min-width: 110px;
     padding: 8px 14px;
-
     cursor: pointer;
-    border: 1px solid rgba(157, 216, 126, 0.55);
-    background: linear-gradient(135deg, rgba(98, 150, 69, 0.9), rgba(41, 78, 39, 0.92));
-    color: #d8f4b0;
-    border-radius: 12px;
-
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
+    border: 2px solid #5a1810;
+    background:
+        repeating-linear-gradient(45deg, rgba(255, 230, 200, 0.08) 0, rgba(255, 230, 200, 0.08) 4px, transparent 4px, transparent 8px),
+        linear-gradient(180deg, #c14a3e 0%, #9a3a2e 60%, #7c2a22 100%);
+    color: #f9edd1;
+    border-radius: 4px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.15rem;
     font-weight: 700;
-
-    transition: filter 120ms ease, transform 120ms ease, border-color 120ms ease;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow:
+        0 2px 0 rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    transition: transform 180ms ease, filter 180ms ease;
 }
 
 .deliver-btn:hover:not(:disabled) {
-    filter: brightness(1.12);
-    transform: translateY(-1px);
-    border-color: rgba(157, 216, 126, 0.85);
+    transform: rotate(-1.5deg) translateY(-1px);
+    filter: brightness(1.06);
 }
 
-.deliver-btn:active:not(:disabled) {
-    transform: translateY(0);
-}
-
+.deliver-btn:active:not(:disabled) { transform: translateY(0); }
 .deliver-btn:disabled {
     cursor: not-allowed;
     opacity: 0.4;
     filter: grayscale(0.4);
 }
 
-.deliver-label {
-    letter-spacing: 0.5px;
-}
-
+.deliver-label { letter-spacing: 0.04em; }
 .deliver-coin {
-    font-size: 10px;
-    color: #ffd47a;
-    letter-spacing: 0.4px;
+    font-size: 11px;
+    color: #d9a64a;
+    letter-spacing: 0.04em;
+    font-family: 'Crimson Pro', serif;
 }
 
 .done-pill {
@@ -557,36 +562,36 @@ function safeWidth(order) {
     gap: 6px;
     padding: 6px 12px;
     border-radius: 999px;
-    background: rgba(157, 216, 126, 0.18);
-    border: 1px solid rgba(157, 216, 126, 0.5);
-    color: #d8f4b0;
-    font-size: 12px;
+    background: rgba(202, 236, 159, 0.4);
+    border: 1.5px dashed rgba(90, 122, 58, 0.6);
+    color: #2e4a18;
+    font-size: 1.05rem;
     font-weight: 700;
+    font-family: 'Caveat', cursive;
 }
 
 .done-tick {
-    color: #caec9f;
+    color: #5a7a3a;
     font-size: 14px;
 }
 
-/* Footer */
 .cabin-footer {
     margin-top: 16px;
     padding-top: 12px;
-    border-top: 1px solid rgba(201, 150, 84, 0.28);
+    border-top: 1.5px dashed rgba(94, 60, 26, 0.4);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 14px;
+    font-size: 1rem;
+    font-family: 'Caveat', cursive;
     font-weight: 700;
 }
 
-.wallet {
-    color: #ffd47a;
-}
-
+.wallet { color: #5a7a3a; }
 .counter {
-    color: rgba(228, 215, 191, 0.72);
+    color: #6b4a2b;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
     font-weight: 600;
 }
 
