@@ -48,6 +48,10 @@ export default {
   }
   },
 
+  hud: {
+    dayLabel: "DAY"
+  },
+
   pause: {
     resume: "Play / Resume",
     saveDownload: "Save",

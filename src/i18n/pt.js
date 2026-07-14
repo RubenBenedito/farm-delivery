@@ -46,6 +46,10 @@ export default {
     }
   },
 
+  hud: {
+    dayLabel: "DIA"
+  },
+
   pause: {
     resume: "Jogar / Retomar",
     saveDownload: "Guardar",

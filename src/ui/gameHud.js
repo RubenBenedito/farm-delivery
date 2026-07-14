@@ -16,7 +16,7 @@ export function createHUD(scene, mapWidth, mapHeight) {
     scene.timeBox.fillRoundedRect(10, 10, 100, 60, 10);
     scene.timeBox.strokeRoundedRect(10, 10, 100, 60, 10);
 
-    scene.dayText = scene.add.text(18, 15, "DIA 1", {
+    scene.dayText = scene.add.text(18, 15, `${window.__gameText?.hud?.dayLabel ?? 'DIA'} 1`, {
         fontSize: "22px",
         fill: "#ffffff",
         fontStyle: "bold"
@@ -86,7 +86,7 @@ export function updateHUD(scene) {
     scene.timeText.setText(
         `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
     );
-    scene.dayText.setText(`DIA ${scene.currentDay}`);
+    scene.dayText.setText(`${window.__gameText?.hud?.dayLabel ?? 'DIA'} ${scene.currentDay}`);
     let nightAlpha = 0;
 
     if (cycleTime < DAY_DURATION_SECONDS) {
