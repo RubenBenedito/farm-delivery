@@ -147,7 +147,8 @@ export default class GameScene extends Phaser.Scene {
             this.barn.interaction,
             this.seedShop.interaction,
             this.stoneCabin.interaction,
-            this.upgradeShop.interaction
+            this.upgradeShop.interaction,
+            ...this.fields.map(f => f.interaction)
         ];
 
         interactables.some((i) => i.handleKeyF());

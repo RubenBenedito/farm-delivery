@@ -135,7 +135,6 @@ function close() {
             <button class="field-close-x" @click="close" :aria-label="t.close">×</button>
 
             <header class="field-header">
-                <div class="field-icon" aria-hidden="true">🌱</div>
                 <h1>{{ t.title }}</h1>
                 <p>{{ t.description }}</p>
             </header>
@@ -164,7 +163,6 @@ function close() {
                     @click="harvest"
                 >
                     <span class="harvest-label">{{ t.harvest }}</span>
-                    <span class="harvest-coin">+🪙</span>
                 </button>
             </section>
 

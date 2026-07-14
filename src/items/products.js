@@ -1,6 +1,7 @@
 export const PRODUCTS = {
     alface: {
         id: "alface",
+        growTime: 180000,
         image: "items/alface.png",
         defaultQuantity: 5,
         buyPrice: 3,
@@ -8,6 +9,7 @@ export const PRODUCTS = {
     },
     cenoura: {
         id: "cenoura",
+        growTime: 180000,
         image: "items/cenoura.png",
         defaultQuantity: 5,
         buyPrice: 4,
@@ -15,6 +17,7 @@ export const PRODUCTS = {
     },
     cebola: {
         id: "cebola",
+        growTime: 180000,
         image: "items/cebola.png",
         defaultQuantity: 5,
         buyPrice: 5,
@@ -22,6 +25,7 @@ export const PRODUCTS = {
     },
     pepino: {
         id: "pepino",
+        growTime: 180000,
         image: "items/pepino.png",
         defaultQuantity: 5,
         buyPrice: 4,
@@ -29,6 +33,7 @@ export const PRODUCTS = {
     },
     morango: {
         id: "morango",
+        growTime: 180000,
         image: "items/morango.png",
         defaultQuantity: 5,
         buyPrice: 6,
@@ -36,6 +41,7 @@ export const PRODUCTS = {
     },
     batata: {
         id: "batata",
+        growTime: 180000,
         image: "items/batata.png",
         defaultQuantity: 0,
         buyPrice: 5,
@@ -44,6 +50,7 @@ export const PRODUCTS = {
     },
     couve: {
         id: "couve",
+        growTime: 180000,
         image: "items/couve.png",
         defaultQuantity: 0,
         buyPrice: 5,
@@ -52,6 +59,7 @@ export const PRODUCTS = {
     },
     melancia: {
         id: "melancia",
+        growTime: 180000,
         image: "items/melancia.png",
         defaultQuantity: 0,
         buyPrice: 7,
