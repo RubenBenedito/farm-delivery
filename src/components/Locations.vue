@@ -155,10 +155,6 @@ const tapeColors = ['#d9a64a', '#6a8e44', '#c14a3e', '#8b6ba8', '#5a8a9e'];
 	font-size: 1.65rem;
 	color: #3a2818;
 	text-align: center;
-	text-decoration: underline;
-	text-decoration-style: wavy;
-	text-decoration-color: rgba(193, 74, 62, 0.6);
-	text-underline-offset: 4px;
 }
 
 .caption-desc {
