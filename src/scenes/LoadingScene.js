@@ -58,5 +58,8 @@ export default class LoadingScene extends Phaser.Scene {
 
         // Som do movimento
         this.load.audio('effect-step', 'sound/effect.wav');
+
+        // Música de fundo
+        this.load.audio('som-fundo', 'sound/som_fundo.mp3');
     }
 }

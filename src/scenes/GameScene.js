@@ -162,6 +162,7 @@ export default class GameScene extends Phaser.Scene {
     pauseGame() {
         this.isPaused = true;
         window.game?.scene?.pause?.('GameScene');
+        window.pauseMusic?.();
     }
 
     resumeGame() {
@@ -169,5 +170,6 @@ export default class GameScene extends Phaser.Scene {
         if (window.game?.scene?.isPaused?.('GameScene')) {
             window.game.scene.resume('GameScene');
         }
+        window.resumeMusic?.();
     }
 }

@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { computed, createApp, defineComponent, h, ref } from 'vue';
+import { computed, createApp, defineComponent, h, ref, watch } from 'vue';
 import LoadingScene from './scenes/LoadingScene.js';
 import GameScene from './scenes/GameScene.js';
 import GameMenu from './components/GameMenu.vue';
@@ -59,9 +59,11 @@ const MenuRoot = defineComponent({
             game.scene.start('GameScene');
         };
 
-        const setLanguage = (lang) => {
-            language.value = lang;
-        };
+    const setLanguage = (lang) => {
+        language.value = lang;
+    };
+
+    watch(text, (val) => { window.__gameText = val; }, { immediate: true });
 
 
         // Menu Pausa
@@ -241,3 +243,25 @@ createApp(MenuRoot).mount('#app');
 
 game = new Phaser.Game(config);
 window.game = game;
+
+
+// Música de fundo
+let ambienceMusic = null;
+
+function startBackgroundMusic() {
+    if (ambienceMusic) return;
+    if (game && game.sound && game.cache.audio.has('som-fundo')) {
+        ambienceMusic = game.sound.add('som-fundo', { loop: true, volume: 0.14 });
+        ambienceMusic.play();
+    }
+}
+
+window.pauseMusic = () => {
+    if (ambienceMusic && ambienceMusic.isPlaying) ambienceMusic.pause();
+};
+
+window.resumeMusic = () => {
+    if (ambienceMusic && ambienceMusic.isPaused) ambienceMusic.resume();
+};
+
+document.addEventListener('pointerdown', startBackgroundMusic, { once: true });
