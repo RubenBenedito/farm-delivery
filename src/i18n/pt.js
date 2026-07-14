@@ -12,6 +12,14 @@ export default {
     objective: "O objetivo passa por cultivar diferentes tipos de fruta, colher as colheitas no momento certo e transformá-las em produtos valiosos para vender no mercado. Com o dinheiro ganho, podemos desbloquear novas áreas, novos produtos e expandir a quinta até te tornares um verdadeiro mestre da agricultura e dos negócios.",
     guideTitle: "Como Jogar",
     locationsTitle: "Locais",
+    settingsTitle: "Definições",
+
+    settings: {
+      music: "Música de fundo",
+      step: "Som do movimento",
+      musicHint: "Controla o volume da música ambiente que toca em loop durante o jogo.",
+      stepHint: "Controla o volume do som que toca enquanto te moves com WASD."
+    },
 
     sections: {
       movement: "Movimento",

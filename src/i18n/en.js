@@ -13,6 +13,14 @@ export default {
       "The objective is to cultivate different types of fruit, harvest them at the right moment, and transform them into valuable products to sell on the market. With the money you earn, you can unlock new areas, new products, and expand the farm until you become a true master of farming and business.",
     guideTitle: "How to Play",
     locationsTitle: "Locations",
+    settingsTitle: "Settings",
+
+    settings: {
+      music: "Background music",
+      step: "Footstep sound",
+      musicHint: "Adjust the volume of the ambient music that loops during the game.",
+      stepHint: "Adjust the volume of the sound that plays as you move with WASD."
+    },
 
     sections: {
       movement: "Movement",

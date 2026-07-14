@@ -13,6 +13,14 @@ export default {
       "L'objectif est de cultiver différents types de fruits, de les récolter au bon moment et de les transformer en produits précieux à vendre sur le marché. Avec l'argent que tu gagnes, tu peux débloquer de nouvelles zones, de nouveaux produits et agrandir la ferme jusqu'à devenir un véritable maître de l'agriculture et des affaires.",
     guideTitle: "Comment Jouer",
     locationsTitle: "Lieux",
+    settingsTitle: "Paramètres",
+
+    settings: {
+      music: "Musique d'ambiance",
+      step: "Bruit des pas",
+      musicHint: "Réglez le volume de la musique d'ambiance qui tourne en boucle pendant le jeu.",
+      stepHint: "Réglez le volume du son émis lorsque vous vous déplacez avec WASD."
+    },
 
     sections: {
       movement: "Mouvement",
