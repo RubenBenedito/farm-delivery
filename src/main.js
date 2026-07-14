@@ -9,6 +9,11 @@ import StoneCabinMenu from './components/StoneCabinMenu.vue';
 import UpgradeShopMenu from './components/UpgradeShopMenu.vue';
 import FieldMenu from './components/FieldMenu.vue';
 import { LANGUAGES } from './i18n/index.js';
+import { getStepSliderValue, setStepSliderValue } from './player/playerMovement.js';
+
+// Converte Musica de Fundo para um volume mais baixo
+const MUSIC_GAIN = 0.5;
+
 
 const config = {
     type: Phaser.AUTO,
@@ -45,10 +50,36 @@ const MenuRoot = defineComponent({
         const language = ref('pt');
         const text = computed(() => LANGUAGES[language.value] ?? LANGUAGES.pt);
 
+        watch(text, (val) => { window.__gameText = val; }, { immediate: true });
+
+
+        const musicVolume = ref(0.28);
+        const stepVolume  = ref(getStepSliderValue());
+
+        function onMusicChange(v) {
+            musicVolume.value = v;
+            if (ambienceMusic) ambienceMusic.volume = v * MUSIC_GAIN;
+        }
+        function onStepChange(v) {
+            stepVolume.value = v;
+            setStepSliderValue(v);
+        }
+
+
+        watch(
+            [pauseOpen, barnOpen, seedShopOpen, cabinOpen, upgradeOpen, fieldOpen],
+            (states) => {
+                if (states.some(Boolean)) window.pauseMusic?.();
+                else window.resumeMusic?.();
+            }
+        );
+
+
         const closePauseMenu = () => {
             pauseOpen.value = false;
             const scene = game.scene.getScene('GameScene');
             scene.resumeGame();
+            startBackgroundMusic();
         };
 
         const restartGame = () => {
@@ -57,6 +88,7 @@ const MenuRoot = defineComponent({
             scene.isPaused = false;
             game.scene.stop('GameScene');
             game.scene.start('GameScene');
+            startBackgroundMusic();
         };
 
     const setLanguage = (lang) => {
@@ -189,9 +221,13 @@ const MenuRoot = defineComponent({
                       open: pauseOpen.value,
                       language: language.value,
                       text: text.value,
+                      musicVolume: musicVolume.value,
+                      stepVolume: stepVolume.value,
                       onClose: closePauseMenu,
                       onRestart: restartGame,
-                      onSetLanguage: setLanguage
+                      onSetLanguage: setLanguage,
+                      onChangeMusic: onMusicChange,
+                      onChangeStep: onStepChange
                   })
                 : null,
 
@@ -245,13 +281,12 @@ game = new Phaser.Game(config);
 window.game = game;
 
 
-// Música de fundo
 let ambienceMusic = null;
 
 function startBackgroundMusic() {
     if (ambienceMusic) return;
     if (game && game.sound && game.cache.audio.has('som-fundo')) {
-        ambienceMusic = game.sound.add('som-fundo', { loop: true, volume: 0.14 });
+        ambienceMusic = game.sound.add('som-fundo', { loop: true, volume: 0.28 * MUSIC_GAIN });
         ambienceMusic.play();
     }
 }
@@ -263,5 +298,3 @@ window.pauseMusic = () => {
 window.resumeMusic = () => {
     if (ambienceMusic && ambienceMusic.isPaused) ambienceMusic.resume();
 };
-
-document.addEventListener('pointerdown', startBackgroundMusic, { once: true });

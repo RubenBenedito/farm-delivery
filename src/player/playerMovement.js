@@ -1,5 +1,14 @@
 import { PLAYER_CONFIG } from './playerConfig.js';
 
+let stepSliderValue = PLAYER_CONFIG.WALK_SOUND_VOLUME;
+
+export function getStepSliderValue() {
+    return stepSliderValue;
+}
+export function setStepSliderValue(v) {
+    stepSliderValue = v;
+}
+
 export function updatePlayerMovement(scene, player) {
     const keys = scene.keys;
     const speed = PLAYER_CONFIG.SPEED;
@@ -49,18 +58,21 @@ export function updatePlayerMovement(scene, player) {
 
 
 function updateMoveSound(scene, player, moved) {
-    // Som não carregado 
+    // Som não carregado
     if (!scene.cache.audio.exists('effect-step')) {
         return;
     }
+
 
     if (moved) {
         // Criar o som
         if (!player.moveSound) {
             player.moveSound = scene.sound.add('effect-step', {
                 loop: true,
-                volume: PLAYER_CONFIG.WALK_SOUND_VOLUME
+                volume: stepSliderValue
             });
+        } else if (player.moveSound.volume !== stepSliderValue) {
+            player.moveSound.volume = stepSliderValue;
         }
 
         if (!player.moveSound.isPlaying) {

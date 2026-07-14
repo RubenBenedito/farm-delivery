@@ -3,14 +3,22 @@ import { computed, ref } from 'vue';
 import Description from './Description.vue';
 import HowToPlay from './HowToPlay.vue';
 import Locations from './Locations.vue';
+import SettingsPanel from './SettingsPanel.vue';
 
 const props = defineProps({
 	open: Boolean,
 	language: String,
-	text: Object
+	text: Object,
+	musicVolume: Number,
+	stepVolume: Number,
+	settings: Object,
+	defaults: Object
 });
 
-const emit = defineEmits(['close', 'restart', 'set-language']);
+const emit = defineEmits([
+	'close', 'restart', 'set-language',
+	'change-music', 'change-step'
+]);
 const tab = ref('description');
 
 function setLang(lang) {
@@ -20,7 +28,8 @@ function setLang(lang) {
 const tabLabels = computed(() => ({
 	description: props.text.mainMenu.descriptionTab,
 	howto: props.text.mainMenu.guideTitle,
-	locations: props.text.mainMenu.locationsTitle
+	locations: props.text.mainMenu.locationsTitle,
+	settings: props.text.mainMenu.settingsTitle
 }));
 
 const activeTabLabel = computed(() => tabLabels.value[tab.value]);
@@ -105,11 +114,15 @@ function resumeGame() {
 							<span class="tab-bullet" aria-hidden="true">✦</span>
 							{{ text.mainMenu.guideTitle }}
 						</button>
-						<button class="menu-tab" :class="{ 'is-active': tab === 'locations' }" @click="tab = 'locations'">
-							<span class="tab-bullet" aria-hidden="true">❖</span>
-							{{ text.mainMenu.locationsTitle }}
-						</button>
-					</div>
+					<button class="menu-tab" :class="{ 'is-active': tab === 'locations' }" @click="tab = 'locations'">
+						<span class="tab-bullet" aria-hidden="true">❖</span>
+						{{ text.mainMenu.locationsTitle }}
+					</button>
+					<button class="menu-tab" :class="{ 'is-active': tab === 'settings' }" @click="tab = 'settings'">
+						<span class="tab-bullet" aria-hidden="true">⚙</span>
+						{{ text.mainMenu.settingsTitle }}
+					</button>
+				</div>
 				</div>
 
 				<header class="menu-header">
@@ -118,15 +131,21 @@ function resumeGame() {
 					<div class="ink-line"></div>
 				</header>
 
-				<div class="content-scroll">
-					<Description v-if="tab === 'description'" :text="text" />
-					<HowToPlay v-else-if="tab === 'howto'" :text="text" />
-					<Locations v-else :text="text" />
-				</div>
+			<div class="content-scroll">
+				<Description v-if="tab === 'description'" :text="text" />
+				<HowToPlay v-else-if="tab === 'howto'" :text="text" />
+				<Locations v-else-if="tab === 'locations'" :text="text" />
+				<SettingsPanel
+					v-else-if="tab === 'settings'"
+					:text="text"
+					:music-volume="musicVolume" :step-volume="stepVolume"
+					@change-music="emit('change-music', $event)"
+					@change-step="emit('change-step', $event)"
+				/>
+			</div>
 
 			</main>
 
-			<!-- Washi tape decoration peeking out top -->
 			<div class="washi-tape washi-tape--left" aria-hidden="true"></div>
 			<div class="washi-tape washi-tape--right" aria-hidden="true"></div>
 
