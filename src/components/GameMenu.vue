@@ -17,13 +17,6 @@ function setLang(lang) {
 	emit('set-language', lang);
 }
 
-const localeMap = { pt: 'pt-PT', en: 'en-GB', fr: 'fr-FR' };
-const today = computed(() => {
-	const locale = localeMap[props.language] || 'pt-PT';
-	const d = new Date();
-	return d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
-});
-
 const tabLabels = computed(() => ({
 	description: props.text.mainMenu.descriptionTab,
 	howto: props.text.mainMenu.guideTitle,
@@ -103,8 +96,6 @@ function resumeGame() {
 			<main class="menu-content">
 
 				<div class="page-header">
-					<div class="page-date">{{ today }}</div>
-
 					<div class="menu-tabs" role="tablist">
 						<button class="menu-tab" :class="{ 'is-active': tab === 'description' }" @click="tab = 'description'">
 							<span class="tab-bullet" aria-hidden="true">❀</span>
@@ -459,19 +450,9 @@ function resumeGame() {
 .page-header {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: flex-end;
 	gap: 16px;
 	margin-bottom: 6px;
-}
-
-.page-date {
-	font-family: 'Caveat', cursive;
-	font-weight: 600;
-	font-size: 1.15rem;
-	color: #b1493a;
-	transform: rotate(-3deg);
-	white-space: nowrap;
-	opacity: 0.85;
 }
 
 .menu-tabs {
