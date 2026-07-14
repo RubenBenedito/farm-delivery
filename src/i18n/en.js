@@ -10,8 +10,7 @@ export default {
     descriptionTab: "Description",
     objectiveTitle: "Goal",
     objective:
-      "The objective is to cultivate different types of fruit, harvest them at the right moment, and transform them into valuable products to sell on the market. With the money you earn, you can unlock new areas, upgrade structures, speed up production, and expand your farm until you become a true master of agriculture and business.",
-
+      "The objective is to cultivate different types of fruit, harvest them at the right moment, and transform them into valuable products to sell on the market. With the money you earn, you can unlock new areas, new products, and expand the farm until you become a true master of farming and business.",
     guideTitle: "How to Play",
     locationsTitle: "Locations",
 

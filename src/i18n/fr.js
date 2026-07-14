@@ -10,8 +10,7 @@ export default {
     descriptionTab: "Description",
     objectiveTitle: "Objectif",
     objective:
-      "L'objectif est de cultiver différents types de fruits, de les récolter au bon moment et de les transformer en produits précieux à vendre sur le marché. Avec l'argent que vous gagnez, vous pouvez débloquer de nouvelles zones, améliorer les structures, accélérer la production et agrandir votre ferme jusqu'à devenir un véritable maître de l'agriculture et du commerce.",
-
+      "L'objectif est de cultiver différents types de fruits, de les récolter au bon moment et de les transformer en produits précieux à vendre sur le marché. Avec l'argent que tu gagnes, tu peux débloquer de nouvelles zones, de nouveaux produits et agrandir la ferme jusqu'à devenir un véritable maître de l'agriculture et des affaires.",
     guideTitle: "Comment Jouer",
     locationsTitle: "Lieux",
 

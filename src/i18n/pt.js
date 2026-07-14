@@ -9,7 +9,7 @@ export default {
 
     descriptionTab: "Descrição",
     objectiveTitle: "Objetivo",
-    objective: "O objetivo passa por cultivar diferentes tipos de fruta, colher as colheitas no momento certo e transformá-las em produtos valiosos para vender no mercado. Com o dinheiro ganho, podemos desbloquear novas áreas, melhorar estruturas, acelerar a produção e expandir a quinta até te tornares um verdadeiro mestre da agricultura e dos negócios.",
+    objective: "O objetivo passa por cultivar diferentes tipos de fruta, colher as colheitas no momento certo e transformá-las em produtos valiosos para vender no mercado. Com o dinheiro ganho, podemos desbloquear novas áreas, novos produtos e expandir a quinta até te tornares um verdadeiro mestre da agricultura e dos negócios.",
     guideTitle: "Como Jogar",
     locationsTitle: "Locais",
 
