@@ -1,6 +1,6 @@
 # 🌾 Farm Delivery
 
-Farm Delivery é um jogo 2D feito em Phaser 3, Vue 3 e JavaScript. O objetivo passa por cultivar diferentes tipos de fruta, colher as colheitas no momento certo e transformá-las em produtos valiosos para vender no mercado. Com o dinheiro ganho, podemos desbloquear novas áreas, novos produtos e expandir a quinta."
+Farm Delivery é um jogo 2D feito em Phaser 3, Vue 3 e JavaScript. O objetivo passa por cultivar diferentes tipos de fruta, colher as colheitas no momento certo e transformá-las em produtos valiosos para vender no mercado. Com o dinheiro ganho, podemos desbloquear novas áreas, novos produtos e expandir a quinta.
 
 ---
 
@@ -15,7 +15,7 @@ Farm Delivery é um jogo 2D feito em Phaser 3, Vue 3 e JavaScript. O objetivo pa
 
 ## 2. Enquadramento da entrega
 
-Esta submissão corresponde à **época de recurso** do ano letivo 2025/2026 e representa o trabalho individual desenvolvido para a unidade curricular de Tecnologias e Multimédia, referente à parte prática, relativa ao jogo 2, desenvolvido em Phaser.
+Esta submissão corresponde à **Época de Recurso** do ano letivo 2025/2026 e representa o trabalho individual desenvolvido para a unidade curricular de Tecnologias e Multimédia, referente à parte prática, relativa ao jogo 2, desenvolvido em Phaser.
 
 ---
 
@@ -95,9 +95,12 @@ Abrir o endereço indicado pelo Vite.
 
 ### Origem dos assets
 
-- Tileset: Summer Outdoors Tilesheet (CC0)  
-- Sons ambiente: Pixabay / Freesound  
-- Sprites do jogador: CC0 / próprios  
+Os recursos utilizados no jogo foram obtidos de bibliotecas de uso livre, adequadas para trabalhos académicos:
+
+- **Tileset:** Summer Outdoors Tilesheet — licença **CC0** (domínio público, uso livre sem atribuição obrigatória)
+- **Sons ambiente:** Pixabay / Freesound — coleções de áudio gratuitas para uso em projetos  
+- **Sprites do jogador:** Recursos CC0 e elementos próprios adaptados para o jogo  
+
 
 ### Resolução / Tamanho
 
