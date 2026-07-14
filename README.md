@@ -1,5 +1,7 @@
 # 🌾 Farm Delivery
 
+Farm Delivery é um jogo 2D feito em Phaser 3, Vue 3 e JavaScript. O objetivo passa por cultivar diferentes tipos de fruta, colher as colheitas no momento certo e transformá-las em produtos valiosos para vender no mercado. Com o dinheiro ganho, podemos desbloquear novas áreas, novos produtos e expandir a quinta."
+
 ---
 
 ## 1. Identificação do aluno
