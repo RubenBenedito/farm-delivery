@@ -23,21 +23,6 @@ const props = defineProps({
             <p>{{ text.mainMenu.guide.movement }}</p>
         </article>
 
-        <!-- Interação -->
-        <article class="guide-card tilt-right">
-            <span class="washi" aria-hidden="true"></span>
-            <h3>
-                <span class="title-bullet">❀</span>
-                {{ text.mainMenu.sections.interaction }}
-            </h3>
-            <div class="keys">
-                <span class="ink-key">F</span>
-                <span class="ink-key plus">+</span>
-                <span class="ink-key">E</span>
-            </div>
-            <p>{{ text.mainMenu.guide.interaction }}</p>
-        </article>
-
         <article class="guide-card tilt-right">
             <span class="washi" aria-hidden="true"></span>
             <h3>
